@@ -1,11 +1,8 @@
-import java.awt.Component;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.InputMap;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 
 /**
@@ -14,19 +11,52 @@ import javax.swing.KeyStroke;
  */
 public class S_MainMenu extends Stage {
 	
-	SV_MainMenu sView;
+	SV_MainMenu sView;		//The StageView that corresponds to the main menu
+	MenuButton[] buttons;	//An array of all the buttons that can be selected
+	int currButton;			//The current button
 	
-	public S_MainMenu(JFrame parentFrame){
-		sView = new SV_MainMenu(800, 600, parentFrame); //Using default resolution
+	public S_MainMenu(View parent){
 		//TODO returning to main menu? Resizing?
+
+		sView = new SV_MainMenu(parent);
+		
+		//Add Menu Buttons
+		buttons = new MenuButton[3];
+		
+		buttons[0] = new MenuButton("Play!", parent, this, 0, 50, 300, 100, 40) {
+			public void buttonFunction(){
+				System.out.println(this.getLabel() + " ran");
+				view.switchStages(new S_MissionSelect(view));
+			}};
+		
+		buttons[1] = new MenuButton("Options", parent, this, 1, 50, 350, 100, 40) {
+			public void buttonFunction(){
+				System.out.println(this.getLabel() + " ran");
+			}};
+		
+		buttons[2] = new MenuButton("Exit", parent, this, 2, 50, 400, 100, 40) {
+			public void buttonFunction(){
+				System.out.println(this.getLabel() + " ran");
+				//Assume everything is already saved, no need to prompt
+				System.exit(0);
+			}
+		};
+		
+		sView.setSelected(buttons[0].getBounds());
 	}
 
+	/**
+	 * Enact whatever effects the current selected button has
+	 * @param selection: The id in buttons[i] of the selected button
+	 */
+	public void select() {	buttons[currButton].buttonFunction();	}
+	
 	/**
 	 * A simple get function to retrieve a reference to the stageView
 	 * @return returns the stageView
 	 */
-	public StageView getStageView()	{return sView;	}
-	//TODO figure out why new version of ^ method was needed
+	public StageView getStageView()	{ return sView;	}
+	//TODO figure out why new version of getStageView() was needed
 
 	/**
 	 * Set up all relevant key binds for this stage at the given component
@@ -37,36 +67,56 @@ public class S_MainMenu extends Stage {
 		
 		//Move Keys up and down
 			//With arrow keys
-		addAction("SelectDown", new SelectDown("SelectDownAction"), 
+		addAction("SelectDown", new SelectDownAction("SelectDownAction"), 
 				KeyStroke.getKeyStroke("DOWN"), component);
-		addAction("SelectUp", new SelectUp("SelectUpAction"), 
+		addAction("SelectUp", new SelectUpAction("SelectUpAction"), 
 				KeyStroke.getKeyStroke("UP"), component);
 			//With WASD
-		addAction("SelectDown", new SelectDown("SelectDownAction"), 
+		addAction("SelectDown", new SelectDownAction("SelectDownAction"), 
 				KeyStroke.getKeyStroke("S"), component);
-		addAction("SelectUp", new SelectUp("SelectUpAction"), 
+		addAction("SelectUp", new SelectUpAction("SelectUpAction"), 
 				KeyStroke.getKeyStroke("W"), component);
 		
 		//Select a button
-		addAction("Select", new Select("SelectAction"), 
+		addAction("Select", new SelectAction("SelectAction"), 
 				KeyStroke.getKeyStroke("SPACE"), component);
-		addAction("Select", new Select("SelectAction"), 
+		addAction("Select", new SelectAction("SelectAction"), 
 				KeyStroke.getKeyStroke("E"), component);
+		addAction("Select", new SelectAction("SelectAction"), 
+				KeyStroke.getKeyStroke("ENTER"), component);
 	}
 	
-	/** Available Actions **/
+		/** Available Actions **/
 	//TODO consider not making a new class for every action?...
-	private class SelectDown extends AbstractAction {
-		public SelectDown(String name){	super(name); }
-		public void actionPerformed(ActionEvent e) { sView.moveSelectedDown(); }
+	private class SelectDownAction extends AbstractAction {
+		public SelectDownAction(String name){	super(name); }
+		public void actionPerformed(ActionEvent e) {
+			//Change the selected button
+			if(currButton >= buttons.length-1)
+				currButton = 0;
+			else
+				currButton += 1;
+				
+			//Update where the selector is shown
+			sView.setSelected(buttons[currButton].getBounds());
+		}
 	}
-	private class SelectUp extends AbstractAction {
-		public SelectUp(String name){	super(name); }
-		public void actionPerformed(ActionEvent e) { sView.moveSelectedUp(); }
+	private class SelectUpAction extends AbstractAction {
+		public SelectUpAction(String name){	super(name); }
+		public void actionPerformed(ActionEvent e) {
+			//Change the selected button, accounting for the minimum and maximum
+			if(currButton <= 0)
+				currButton = buttons.length - 1;
+			else
+				currButton -= 1;
+			
+			//Update where the selector is shown 
+			sView.setSelected(buttons[currButton].getBounds());
+		}
 	}
-	private class Select extends AbstractAction{
-		public Select(String name){		super(name); }
-		public void actionPerformed(ActionEvent e) { sView.select();	}
+	private class SelectAction extends AbstractAction{
+		public SelectAction(String name){		super(name); }
+		public void actionPerformed(ActionEvent e) { select();	}
 	}
 }
 

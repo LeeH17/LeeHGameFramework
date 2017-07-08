@@ -3,7 +3,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 
 /**
  * General menu button, to consolidate functions from Main Menu (TODO update)
@@ -14,8 +13,15 @@ public abstract class MenuButton extends JButton {
 	
 	int id; //Keep track of the ID number of this button
 	
-	public MenuButton(String label, JFrame frame, int idNum, 
-			Rectangle location){
+	/* Keep track of these two parents, to facilitate buttonFunction() access to
+	 *  the MVC-model.
+	 * We will define most of the buttonFunction's effects in each Stage
+	*/
+	View view;
+	Stage parent;
+	
+	public MenuButton(String label, View frame, Stage parentStage,
+			int idNum, Rectangle location){
 		super(label);
 		this.setBounds(location);
 		this.addActionListener(new ActionListener() {
@@ -25,14 +31,20 @@ public abstract class MenuButton extends JButton {
 			}
 		});
 		
-		frame.add(this);
+		parentStage.getStageView().addToLayer(this, 0);
 		
+		//Set variables
+		view = frame;
+		parent = parentStage;
 		id = idNum;
+		
+		//Ensure that this can't take focus from View (JFrame)
+		this.setFocusable(false);
 	}
 	//Version to manage Rectangle Creation
-	public MenuButton(String label, JFrame frame, int idNum,
-			int x, int y, int width, int height){
-		this(label, frame, idNum, new Rectangle(x, y, width, height));
+	public MenuButton(String label, View frame, Stage parentStage,
+			int idNum, int x, int y, int width, int height){
+		this(label, frame, parentStage, idNum, new Rectangle(x, y, width, height));
 	}
 	
 	/**

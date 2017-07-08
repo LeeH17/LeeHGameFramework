@@ -1,44 +1,63 @@
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
 
-import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 /**
- * 
+ * The view component of a stage
  * @author Harrison Lee
  */
 public abstract class StageView extends JPanel{
 
 	//Background background TODO store background art here!
 	protected int winW, winH; //Define the window's width and height TODO changeable?
+
+	JLayeredPane layeredPane;
 	
-	//The parent frame, for adding additional components to.
-	protected JFrame pFrame;
-	
-	public StageView(int width, int height, JFrame parentFrame){
-		resizeWindow(width, height);
-		pFrame = parentFrame;
+	public StageView(View parentView){
+		setBounds(0, 0, parentView.getWidth(), parentView.getHeight());
+		setFocusable(false);	//Ensure that this can't take focus from View (JFrame)
+		setLayout(null);
+		setPreferredSize(new Dimension(800, 600));
+		
+		//Set up layeredPane as well
+		layeredPane = new JLayeredPane();
+		layeredPane.setPreferredSize(new Dimension(800, 600));
+		layeredPane.setBounds(0, 0, getWidth(), getHeight());
+		layeredPane.setLayout(null);
+		layeredPane.setVisible(true);
+		this.add(layeredPane);
+		/*JLabel temp = new JLabel();
+		temp.setBackground(Color.black);
+		temp.setOpaque(true);
+		temp.setBounds(100, 100, 100, 100);
+		layeredPane.add(temp, new Integer(1));*/
 	}
 	
 	//Handle Graphics
-	public void paint(Graphics g){
-		displayBackground(g);
+	public void paint(Graphics g) {
+		super.paint(g);
 	}
 	
 	/**
-	 * Handle all background display stuff here (separate from UI overlays)
-	 * @param g: The graphics object paint() is acting through.
+	 * Add to a specific layer, using JLayeredPane.
+	 * Should always be used over other add(JComponent) methods,
+	 *  to keep layer consistency.
+	 * @param component: The component being added
+	 * @param layer: The layer to add at
 	 */
-	private void displayBackground(Graphics g){
-		//Create background
-		g.setColor(Color.CYAN);
-		g.fillRect(0, 0, winW, winH);
-	}
-	
-	protected void resizeWindow(int width, int height){
-		winW = width;
-		winH = height;
-		this.setSize(winW, winH);
+	public void addToLayer(Component component, int layer){
+		Integer layerInt = new Integer(layer);
+		layeredPane.add(component, new Integer(layer));
+/*
+		add(layeredPane);
+		layeredPane.revalidate();
+		layeredPane.repaint();
+		revalidate();
+		repaint();*/
 	}
 }

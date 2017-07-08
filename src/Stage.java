@@ -16,12 +16,12 @@ public abstract class Stage {
 	 * Note!: Be careful, example of reference exposure
 	 * @return A reference to the stageView
 	 */
-	public abstract StageView getStageView();
+	public StageView getStageView() { return sView; }
 	
 	/**
 	 * Set up all necessary key binds, adding the actions to the input map
 	 */
-	public abstract void setUpKeyBinds(JComponent inputMap);
+	public abstract void setUpKeyBinds(JComponent component);
 	
 	/**
 	 * Simple function to simplify adding an action

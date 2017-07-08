@@ -1,3 +1,5 @@
+import java.awt.Dimension;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -23,8 +25,9 @@ public class View extends JFrame {
 		
 		//Other stuff
 		setTitle("Game FrameWork - by Harrison Lee");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);	//Center the window
+		setPreferredSize(new Dimension(800, 600));
 	}
 	
 	/**
