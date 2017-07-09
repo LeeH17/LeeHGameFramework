@@ -2,6 +2,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 /**
  * StageView corresponding to the main menu
@@ -14,6 +19,8 @@ public class SV_MainMenu extends StageView{
 	Font buttonFont;
 	
 	Rectangle selected;	//The bounds of the selected button
+	
+	BufferedImage imgTitleBackground;
 	
 	/**
 	 * Initialize all MVC-View portions of the main menu
@@ -38,6 +45,7 @@ public class SV_MainMenu extends StageView{
 		super.paint(g);
 		
 		//Create background
+		g.drawImage(imgTitleBackground, 0, 0, null);
 		//g.setColor(Color.CYAN);
 		//g.fillRect(0, 0, getWidth(), getHeight());
 		
@@ -67,7 +75,6 @@ public class SV_MainMenu extends StageView{
 			//Draw the selector around it.
 			g.drawRect(x, y, width, height);
 		}
-		
 	}
 	
 	/**
@@ -76,6 +83,16 @@ public class SV_MainMenu extends StageView{
 	 */
 	public void setSelected(Rectangle currBounds) {
 		selected = currBounds;
+	}
+
+	@Override
+	protected void loadResources() {
+		imgTitleBackground = null;
+		try{
+			imgTitleBackground = ImageIO.read(new File("Resources/imgTitleBackground.png"));
+		} catch (IOException e) {
+			System.out.println("Failed to load in SV_MainMenu.\n"+e);
+		}
 	}
 }
 

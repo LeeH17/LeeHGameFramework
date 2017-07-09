@@ -11,7 +11,8 @@ import javax.swing.JButton;
  */
 public abstract class MenuButton extends JButton {
 	
-	int id; //Keep track of the ID number of this button
+	int id; 	//Keep track of the ID number of this button
+	int layer;	//Keep track of the layer this button is kept in
 	
 	/* Keep track of these two parents, to facilitate buttonFunction() access to
 	 *  the MVC-model.
@@ -21,7 +22,7 @@ public abstract class MenuButton extends JButton {
 	Stage parent;
 	
 	public MenuButton(String label, View frame, Stage parentStage,
-			int idNum, Rectangle location){
+			int idNum, int layer, Rectangle location){
 		super(label);
 		this.setBounds(location);
 		this.addActionListener(new ActionListener() {
@@ -31,7 +32,7 @@ public abstract class MenuButton extends JButton {
 			}
 		});
 		
-		parentStage.getStageView().addToLayer(this, 0);
+		parentStage.getStageView().addToLayer(this, layer);
 		
 		//Set variables
 		view = frame;
@@ -43,8 +44,9 @@ public abstract class MenuButton extends JButton {
 	}
 	//Version to manage Rectangle Creation
 	public MenuButton(String label, View frame, Stage parentStage,
-			int idNum, int x, int y, int width, int height){
-		this(label, frame, parentStage, idNum, new Rectangle(x, y, width, height));
+			int idNum, int layer, int x, int y, int width, int height){
+		this(label, frame, parentStage, idNum, layer,
+				new Rectangle(x, y, width, height));
 	}
 	
 	/**

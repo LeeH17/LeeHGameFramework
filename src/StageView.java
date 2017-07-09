@@ -1,9 +1,7 @@
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
@@ -36,6 +34,9 @@ public abstract class StageView extends JPanel{
 		temp.setOpaque(true);
 		temp.setBounds(100, 100, 100, 100);
 		layeredPane.add(temp, new Integer(1));*/
+		
+		//Load other resources
+		loadResources();
 	}
 	
 	//Handle Graphics
@@ -60,4 +61,7 @@ public abstract class StageView extends JPanel{
 		revalidate();
 		repaint();*/
 	}
+	
+	/** Load all resources needed for this stage's view */
+	protected abstract void loadResources();
 }

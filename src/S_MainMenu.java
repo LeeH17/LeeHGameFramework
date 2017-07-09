@@ -23,18 +23,21 @@ public class S_MainMenu extends Stage {
 		//Add Menu Buttons
 		buttons = new MenuButton[3];
 		
-		buttons[0] = new MenuButton("Play!", parent, this, 0, 50, 300, 100, 40) {
+		buttons[0] = new MenuButton("Play!", parent, this, 0,
+				1, 50, 300, 100, 40) {
 			public void buttonFunction(){
 				System.out.println(this.getLabel() + " ran");
 				view.switchStages(new S_MissionSelect(view));
 			}};
 		
-		buttons[1] = new MenuButton("Options", parent, this, 1, 50, 350, 100, 40) {
+		buttons[1] = new MenuButton("Options", parent, this, 1, 
+				1, 50, 350, 100, 40) {
 			public void buttonFunction(){
 				System.out.println(this.getLabel() + " ran");
 			}};
 		
-		buttons[2] = new MenuButton("Exit", parent, this, 2, 50, 400, 100, 40) {
+		buttons[2] = new MenuButton("Exit", parent, this, 2,
+				1, 50, 400, 100, 40) {
 			public void buttonFunction(){
 				System.out.println(this.getLabel() + " ran");
 				//Assume everything is already saved, no need to prompt

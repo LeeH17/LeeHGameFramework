@@ -15,4 +15,9 @@ public class SV_MissionSelect extends StageView {
 		g.fillRect(0, 0, getWidth(), getHeight());
 	}
 
+	@Override
+	protected void loadResources() {
+		// TODO Auto-generated method stub
+		
+	}
 }
