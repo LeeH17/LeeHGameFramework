@@ -33,7 +33,7 @@ public class Main {
 			public void run(){
 				//Set up the view with currStage
 				View view = new View();//main.currStage);
-				main.setCurrStage(new S_MainMenu(view));
+				main.setCurrStage(new S_MissionSelect(view));
 				view.switchStages(main.currStage);
 				
 				//Set up resizing stuff

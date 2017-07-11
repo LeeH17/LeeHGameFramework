@@ -41,9 +41,6 @@ public class SV_MainMenu extends StageView{
 	
 	@Override
 	public void paint(Graphics g){
-		//Note: Components painted by super.paint(g) will be below other parts
-		super.paint(g);
-		
 		//Create background
 		g.drawImage(imgTitleBackground, 0, 0, getWidth(), getHeight(), null);
 		//g.setColor(Color.CYAN);
@@ -75,6 +72,8 @@ public class SV_MainMenu extends StageView{
 			//Draw the selector around it.
 			g.drawRect(x, y, width, height);
 		}
+		
+		super.paint(g);
 	}
 	
 	/**
