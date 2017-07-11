@@ -21,6 +21,7 @@ public abstract class StageView extends JPanel{
 		setFocusable(false);	//Ensure that this can't take focus from View (JFrame)
 		setLayout(null);
 		setPreferredSize(new Dimension(800, 600));
+		this.setOpaque(false);
 		
 		//Set up layeredPane as well
 		layeredPane = new JLayeredPane();

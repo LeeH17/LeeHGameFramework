@@ -5,7 +5,8 @@ public class SV_MissionSelect extends StageView {
 
 	public SV_MissionSelect(View parentView) {
 		super(parentView);
-
+		
+		setBackground(Color.GREEN);
 	}
 
 	@Override
