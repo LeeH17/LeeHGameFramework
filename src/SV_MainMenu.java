@@ -45,7 +45,7 @@ public class SV_MainMenu extends StageView{
 		super.paint(g);
 		
 		//Create background
-		g.drawImage(imgTitleBackground, 0, 0, null);
+		g.drawImage(imgTitleBackground, 0, 0, getWidth(), getHeight(), null);
 		//g.setColor(Color.CYAN);
 		//g.fillRect(0, 0, getWidth(), getHeight());
 		
