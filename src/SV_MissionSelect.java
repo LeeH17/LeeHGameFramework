@@ -2,11 +2,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 public class SV_MissionSelect extends StageView {
 
-	JScrollPane scrollPane;			//List view for available missions
+	//The scrolling list of missions
+	JPanel listPanel;		//Holds buttons
+	JScrollPane listScroll;	//Handle scrolling
 	
 	public SV_MissionSelect(View parentView) {
 		super(parentView);
@@ -14,15 +17,17 @@ public class SV_MissionSelect extends StageView {
 		setBackground(Color.GREEN);
 
 			//Set up scrolling missions list
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, (int) (getWidth()*0.2), (int) (getHeight()*0.5));
-		scrollPane.setVisible(true);
-		this.add(scrollPane);
+		listPanel = new JPanel();
+		listPanel.setBounds(0, 0, (int) (getWidth()*0.2), (int) (getHeight()*0.5));
+		listScroll = new JScrollPane(	JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
+										JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		listPanel.add(listScroll);
+		this.add(listPanel);
 	}
 
 	public void addScrollButton(Mission msn){
 		JButton newScrollBtn = new JButton(msn.getName());
-		scrollPane.add(newScrollBtn);
+		listPanel.add(newScrollBtn);
 		newScrollBtn.setVisible(true);
 	}
 	
