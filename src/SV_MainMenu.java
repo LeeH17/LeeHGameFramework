@@ -31,7 +31,7 @@ public class SV_MainMenu extends StageView{
 	public SV_MainMenu(View parentView){
 		super(parentView);
 		
-		//Set up fonts TODO actually think about
+		//Set up fonts
 		titleFont = new Font(Font.SERIF, Font.ITALIC, 32);
 		buttonFont = new Font(Font.DIALOG, Font.BOLD, 16);
 		
@@ -71,6 +71,8 @@ public class SV_MainMenu extends StageView{
 			
 			//Draw the selector around it.
 			g.drawRect(x, y, width, height);
+			g.setColor(Color.LIGHT_GRAY);
+			g.fillRect(x, y, width, height);
 		}
 		
 		super.paint(g);

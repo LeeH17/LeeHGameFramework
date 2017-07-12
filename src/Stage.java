@@ -8,7 +8,15 @@ import javax.swing.KeyStroke;
  * @author Harrison Lee
  */
 public abstract class Stage {
+	//The sView manages the visual part of the stage
 	StageView sView;
+	
+	//Maintain a connection to the containing View object
+	View parent;
+	
+	public Stage(View viewParent){
+		parent = viewParent;
+	}
 	
 	/**
 	 * Gives a reference to sView.

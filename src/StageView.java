@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 public abstract class StageView extends JPanel{
 
 	//Background background TODO store background art here!
-	protected int winW, winH; //Define the window's width and height TODO changeable?
+	protected int winW, winH; //Define the window's width and height
 
 	JLayeredPane layeredPane;
 	

@@ -16,34 +16,37 @@ public class S_MainMenu extends Stage {
 	int currButton;			//The current button
 	
 	public S_MainMenu(View parent){
-		//TODO returning to main menu? Resizing?
-
+		super(parent);
+		
 		sView = new SV_MainMenu(parent);
 		
 		//Add Menu Buttons
 		buttons = new MenuButton[3];
 		
-		buttons[0] = new MenuButton("Play!", parent, this, 0,
-				1, 50, 300, 100, 40) {
+		buttons[0] = new MenuButton("Play!", parent, this, 0) {
 			public void buttonFunction(){
 				System.out.println(this.getLabel() + " ran");
 				view.switchStages(new S_MissionSelect(view));
 			}};
+		buttons[0].setBounds(50, 300, 100, 40);
+		sView.addToLayer(buttons[0], 1);
 		
-		buttons[1] = new MenuButton("Options", parent, this, 1, 
-				1, 50, 350, 100, 40) {
+		buttons[1] = new MenuButton("Options", parent, this, 1) {
 			public void buttonFunction(){
 				System.out.println(this.getLabel() + " ran");
 			}};
+		buttons[1].setBounds(50, 350, 100, 40);
+		sView.addToLayer(buttons[1], 1);
 		
-		buttons[2] = new MenuButton("Exit", parent, this, 2,
-				1, 50, 400, 100, 40) {
+		buttons[2] = new MenuButton("Exit", parent, this, 2) {
 			public void buttonFunction(){
 				System.out.println(this.getLabel() + " ran");
 				//Assume everything is already saved, no need to prompt
 				System.exit(0);
 			}
 		};
+		buttons[2].setBounds(50, 400, 100, 40);
+		sView.addToLayer(buttons[2], 1);
 		
 		sView.setSelected(buttons[0].getBounds());
 	}

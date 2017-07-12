@@ -22,17 +22,16 @@ public abstract class MenuButton extends JButton {
 	Stage parent;
 	
 	public MenuButton(String label, View frame, Stage parentStage,
-			int idNum, int layer, Rectangle location){
+			int idNum){
+		
 		super(label);
-		this.setBounds(location);
+		
+		//Add function
 		this.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//select(idNum);
 				buttonFunction();
 			}
 		});
-		
-		parentStage.getStageView().addToLayer(this, layer);
 		
 		//Set variables
 		view = frame;
@@ -42,12 +41,13 @@ public abstract class MenuButton extends JButton {
 		//Ensure that this can't take focus from View (JFrame)
 		this.setFocusable(false);
 	}
+	/*
 	//Version to manage Rectangle Creation
 	public MenuButton(String label, View frame, Stage parentStage,
 			int idNum, int layer, int x, int y, int width, int height){
 		this(label, frame, parentStage, idNum, layer,
 				new Rectangle(x, y, width, height));
-	}
+	} Old code, when this.setBounds() was used here*/
 	
 	/**
 	 * Expect to either make a new class extending or defining on the spot.

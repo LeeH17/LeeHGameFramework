@@ -7,9 +7,12 @@ public class S_MissionSelect extends Stage {
 	SV_MissionSelect sView;
 	
 	ArrayList<Mission> missions;	//Keep track of available missions
+				//Use arraylist so a custom mission-order can be used
 					//TODO find way to load, likely from main
 	
 	public S_MissionSelect(View parentView) {
+		super(parentView);
+		
 		// TODO Auto-generated constructor stub
 		sView = new SV_MissionSelect(parentView);
 		
@@ -21,8 +24,8 @@ public class S_MissionSelect extends Stage {
 	 */
 	private void tempMakeMissions(){
 		missions = new ArrayList<Mission>();
-		missions.add(new Mission("Mission 1", "Msn1 Desc"));
-		missions.add(new Mission("Mission 2", "Msn2 Desc"));
+		missions.add(new Mission("Mission 1", "Msn1 Desc", 1));
+		missions.add(new Mission("Mission 2", "Msn2 Desc", 2));
 	}
 	
 	/**
@@ -33,12 +36,49 @@ public class S_MissionSelect extends Stage {
 		tempMakeMissions();
 		
 		//Go through all the missions, and: ...
-		for(Mission msn: missions) {
+		for(int i=0;i<missions.size();i++) {
+			Mission msn = missions.get(i);
 			//Add to the scrolling list
-			sView.addScrollButton(msn);
+			MenuButton newButton = new MenuButton(msn.getName(),
+					parent, this, msn.getID()) {
+				public void buttonFunction() {
+					System.out.println("Selected mission: "
+							+ this.getLabel());
+					//TODO fill out to put description in description pane
+					//parent.describeMission(this.getName());
+					//parent.sView.add
+			}};
+			sView.addToList(newButton, i);
+			
 			
 			//TODO and add map pins
 		}
+	}
+	
+	/**
+	 * Find and return the stored mission by the given name
+	 * @param missionName: The name of the mission to find
+	 * @return: Returns the first mission with given missionName
+	 */
+	public Mission getMission(String missionName){
+		//TODO maybe consider hidden way to sort,
+		//	rather than search each time
+		//Simple O(n) search
+		for(Mission msn: missions){
+			if(msn.getName().equals(missionName)){
+				return msn;
+			}
+		}
+		System.err.println("Error: S_MissionSelect, "
+				+ "searched for invalid mission: "
+				+ missionName);
+		return null;
+	}
+	
+	public void describeMission(String missionName){
+		Mission msn = getMission(missionName);
+		
+		
 	}
 
 	@Override

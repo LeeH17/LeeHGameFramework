@@ -9,14 +9,17 @@ public class Mission {
 
 	String name;
 	String desc;
+	int id;
 	
-	public Mission(String msnName, String msnDesc) {
+	public Mission(String msnName, String msnDesc, int IDNum) {
 		name = msnName;
 		desc = msnDesc;
+		id = IDNum;
 	}
 
 	
 	/** Get methods **/
 	public String getName()	{ return name;	}
 	public String getDesc()	{ return desc;	}
+	public int getID()		{ return id;	}
 }
