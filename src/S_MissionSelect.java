@@ -1,6 +1,9 @@
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
+
 
 public class S_MissionSelect extends Stage {
 
@@ -42,7 +45,12 @@ public class S_MissionSelect extends Stage {
 		for(int i=0;i<missions.size();i++) {
 			Mission msn = missions.get(i);
 			//Add to the scrolling list
-			MenuButton newButton = new MenuButton(msn.getName(),
+			
+			JButton newButton = new JButton(msn.getName());
+			newButton.setActionCommand("msn" + i);
+			newButton.addActionListener(this);
+			
+			/*MenuButton newButton = new MenuButton(msn.getName(),
 					parent, this, msn.getID()) {
 				public void buttonFunction() {
 					System.out.println("Selected mission: "
@@ -50,8 +58,8 @@ public class S_MissionSelect extends Stage {
 					//TODO fill out to put description in description pane
 					//parent.describeMission(this.getName());
 					//parent.sView.add
-			}};
-			sView.addToList(newButton, i);
+			}};*/
+			sView.addToList(newButton);
 			
 			
 			//TODO and add map pins
@@ -78,10 +86,8 @@ public class S_MissionSelect extends Stage {
 		return null;
 	}
 	
-	public void describeMission(String missionName){
-		Mission msn = getMission(missionName);
-		
-		
+	public void describeMission(Mission mission){
+		System.out.println(mission.getDesc());
 	}
 
 	@Override
@@ -91,6 +97,18 @@ public class S_MissionSelect extends Stage {
 	public void setUpKeyBinds(JComponent component) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		//First, determine command type
+		if(e.getActionCommand().substring(0, 3).equals("msn")){
+			//We have determined this is a mission selected command
+			int missionNumber = Integer.parseInt(e.getActionCommand().substring(3));
+			describeMission(missions.get(missionNumber));
+		} else {
+			System.out.println("Unknown ActionEvent: " + e);
+		}
 	}
 
 }

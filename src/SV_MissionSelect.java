@@ -29,6 +29,8 @@ public class SV_MissionSelect extends StageView {
 		listScroll.setBounds(0, 0, (int) (getWidth()*0.2), (int) (getHeight()*0.5));
 		listPanel.setBounds(0, 0, listScroll.getWidth()-20, listScroll.getHeight());
 		this.add(listScroll);
+		
+
 	}
 	
 	/**
@@ -37,7 +39,7 @@ public class SV_MissionSelect extends StageView {
 	 * @param button: The button to add
 	 * @param missionNumber: Define location based on what number mission this is
 	 */
-	public void addToList(MenuButton button, int missionNumber){
+	public void addToList(JButton button){
 		//All three of these lines necessary to set size properly with boxLayout
 		button.setMinimumSize(new Dimension(listPanel.getWidth(), 50));
 		button.setPreferredSize(new Dimension(listPanel.getWidth(), 50));

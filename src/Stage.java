@@ -1,3 +1,5 @@
+import java.awt.event.ActionListener;
+
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
@@ -7,7 +9,7 @@ import javax.swing.KeyStroke;
  * Each stage individually manages control/ActionEvents
  * @author Harrison Lee
  */
-public abstract class Stage {
+public abstract class Stage implements ActionListener{
 	//The sView manages the visual part of the stage
 	StageView sView;
 	

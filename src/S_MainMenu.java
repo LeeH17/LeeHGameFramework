@@ -2,6 +2,7 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
@@ -12,7 +13,7 @@ import javax.swing.KeyStroke;
 public class S_MainMenu extends Stage {
 	
 	SV_MainMenu sView;		//The StageView that corresponds to the main menu
-	MenuButton[] buttons;	//An array of all the buttons that can be selected
+	JButton[] buttons;	//An array of all the buttons that can be selected
 	int currButton;			//The current button
 	
 	public S_MainMenu(View parent){
@@ -21,30 +22,25 @@ public class S_MainMenu extends Stage {
 		sView = new SV_MainMenu(parent);
 		
 		//Add Menu Buttons
-		buttons = new MenuButton[3];
+		buttons = new JButton[3];
+		//The play button, for entering the game
+		buttons[0] = new JButton("Play!");					//Make the button
+		buttons[0].setActionCommand(buttons[0].getText());	//Set as getText() to ensure consistency with select()
+		buttons[0].addActionListener(this);					//Sets/adds the action listener, now uses ActionPerformed()
+		buttons[0].setBounds(50, 300, 100, 40);				//Sets the position and size of the button
+		sView.addToLayer(buttons[0], 1);					//Add to stageView
 		
-		buttons[0] = new MenuButton("Play!", parent, this, 0) {
-			public void buttonFunction(){
-				System.out.println(this.getLabel() + " ran");
-				view.switchStages(new S_MissionSelect(view));
-			}};
-		buttons[0].setBounds(50, 300, 100, 40);
-		sView.addToLayer(buttons[0], 1);
-		
-		buttons[1] = new MenuButton("Options", parent, this, 1) {
-			public void buttonFunction(){
-				System.out.println(this.getLabel() + " ran");
-			}};
+		//Options button, TODO make options menu
+		buttons[1] = new JButton("Options");
+		buttons[1].setActionCommand(buttons[1].getText());
+		buttons[1].addActionListener(this);
 		buttons[1].setBounds(50, 350, 100, 40);
 		sView.addToLayer(buttons[1], 1);
 		
-		buttons[2] = new MenuButton("Exit", parent, this, 2) {
-			public void buttonFunction(){
-				System.out.println(this.getLabel() + " ran");
-				//Assume everything is already saved, no need to prompt
-				System.exit(0);
-			}
-		};
+		//Exit: Exit the game, close TODO "are you sure" prompt
+		buttons[2] = new JButton("Exit");
+		buttons[2].setActionCommand(buttons[2].getText());
+		buttons[2].addActionListener(this);
 		buttons[2].setBounds(50, 400, 100, 40);
 		sView.addToLayer(buttons[2], 1);
 		
@@ -55,7 +51,12 @@ public class S_MainMenu extends Stage {
 	 * Enact whatever effects the current selected button has
 	 * @param selection: The id in buttons[i] of the selected button
 	 */
-	public void select() {	buttons[currButton].buttonFunction();	}
+	public void select() {	
+		actionPerformed( new ActionEvent(
+				buttons[currButton],
+				ActionEvent.ACTION_PERFORMED,
+				buttons[currButton].getText()));
+	}
 	
 	/**
 	 * A simple get function to retrieve a reference to the stageView
@@ -123,6 +124,22 @@ public class S_MainMenu extends Stage {
 	private class SelectAction extends AbstractAction{
 		public SelectAction(String name){		super(name); }
 		public void actionPerformed(ActionEvent e) { select();	}
+	}
+	
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		System.out.println(e.getActionCommand() + " was pressed.");
+		//Figure out which button was pressed
+		if(e.getActionCommand().equals("Play!")){
+			parent.switchStages(new S_MissionSelect(parent));
+		} else if(e.getActionCommand().equals("Options")){
+			
+		} else if(e.getActionCommand().equals("Exit")){
+			System.exit(0);
+		} else {
+			System.out.println("Unknown ActionEvent: " + e);
+		}
 	}
 }
 
