@@ -1,7 +1,9 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,12 +21,14 @@ public class SV_MissionSelect extends StageView {
 
 			//Set up scrolling missions list
 		listPanel = new JPanel();
-		listPanel.setBounds(0, 0, (int) (getWidth()*0.2), (int) (getHeight()*0.5));
-		listScroll = new JScrollPane(	JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
+		//listPanel.setLayout(null);
+		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
+		listScroll = new JScrollPane(	listPanel,
+										JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
 										JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		listScroll.setBounds(0, listPanel.getWidth()-10, 10, listPanel.getHeight());
-		listPanel.add(listScroll);
-		this.add(listPanel);
+		listScroll.setBounds(0, 0, (int) (getWidth()*0.2), (int) (getHeight()*0.5));
+		listPanel.setBounds(0, 0, listScroll.getWidth()-20, listScroll.getHeight());
+		this.add(listScroll);
 	}
 	
 	/**
@@ -34,10 +38,12 @@ public class SV_MissionSelect extends StageView {
 	 * @param missionNumber: Define location based on what number mission this is
 	 */
 	public void addToList(MenuButton button, int missionNumber){
-		Rectangle bounds = new Rectangle(0, missionNumber*50,
-				(int) (getWidth()*0.2)-10, (int) (getHeight()*0.5));
+		//All three of these lines necessary to set size properly with boxLayout
+		button.setMinimumSize(new Dimension(listPanel.getWidth(), 50));
+		button.setPreferredSize(new Dimension(listPanel.getWidth(), 50));
+		button.setMaximumSize(new Dimension(listPanel.getWidth(), 50));
+
 		listPanel.add(button);
-		button.setBounds(bounds);
 		button.setVisible(true);
 	}
 	

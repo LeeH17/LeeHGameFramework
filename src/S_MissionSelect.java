@@ -24,8 +24,11 @@ public class S_MissionSelect extends Stage {
 	 */
 	private void tempMakeMissions(){
 		missions = new ArrayList<Mission>();
-		missions.add(new Mission("Mission 1", "Msn1 Desc", 1));
-		missions.add(new Mission("Mission 2", "Msn2 Desc", 2));
+		//missions.add(new Mission("Mission 1", "Msn1 Desc", 1));
+		//missions.add(new Mission("Mission 2", "Msn2 Desc", 2));
+		for(int i=0; i<20;i++){
+			missions.add(new Mission("Mission " + i, "Msn desc" + i, i));
+		}
 	}
 	
 	/**
