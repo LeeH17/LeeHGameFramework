@@ -30,7 +30,8 @@ public class S_MissionSelect extends Stage {
 		//missions.add(new Mission("Mission 1", "Msn1 Desc", 1));
 		//missions.add(new Mission("Mission 2", "Msn2 Desc", 2));
 		for(int i=0; i<20;i++){
-			missions.add(new Mission("Mission " + i, "Msn desc" + i, i));
+			missions.add(new Mission("Mission " + i, 
+					"Placeholder mission description " + i, i));
 		}
 	}
 	
@@ -85,10 +86,6 @@ public class S_MissionSelect extends Stage {
 				+ missionName);
 		return null;
 	}
-	
-	public void describeMission(Mission mission){
-		System.out.println(mission.getDesc());
-	}
 
 	@Override
 	public StageView getStageView() { return sView;	}
@@ -105,7 +102,7 @@ public class S_MissionSelect extends Stage {
 		if(e.getActionCommand().substring(0, 3).equals("msn")){
 			//We have determined this is a mission selected command
 			int missionNumber = Integer.parseInt(e.getActionCommand().substring(3));
-			describeMission(missions.get(missionNumber));
+			sView.setActiveMission(missions.get(missionNumber));
 		} else {
 			System.out.println("Unknown ActionEvent: " + e);
 		}

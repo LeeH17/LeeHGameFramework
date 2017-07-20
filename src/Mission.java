@@ -7,9 +7,9 @@
  */
 public class Mission {
 
-	String name;
-	String desc;
-	int id;
+	private String name;
+	private String desc;
+	private int id;
 	
 	public Mission(String msnName, String msnDesc, int IDNum) {
 		name = msnName;

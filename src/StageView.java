@@ -63,6 +63,7 @@ public abstract class StageView extends JPanel{
 		repaint();*/
 	}
 	
-	/** Load all resources needed for this stage's view */
+	/** Load all resources needed for this stage's view.
+	 * Examples include background images */
 	protected abstract void loadResources();
 }
