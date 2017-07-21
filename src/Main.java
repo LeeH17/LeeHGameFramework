@@ -13,7 +13,7 @@ import javax.swing.Timer;
 
 public class Main {
 
-	Stage currStage;
+	static Stage currStage;
 	
 	public Main(){
 		
@@ -30,10 +30,10 @@ public class Main {
 		//Manage view thread
 		EventQueue.invokeLater(new Runnable(){
 			@Override
-			public void run(){
+			public void run(){	//Note: This runs once
 				//Set up the view with currStage
 				View view = new View();//main.currStage);
-				main.setCurrStage(new S_MissionSelect(view));
+				main.setCurrStage(new S_Mission(view));
 				view.switchStages(main.currStage);
 				
 				//Set up resizing stuff
@@ -45,12 +45,23 @@ public class Main {
 					public void actionPerformed(ActionEvent e){
 						//TODO run only when needed, don't update otherwise
 						view.repaint();
+						currStage.update(10);
 					}
 				});
 				
 				//Now we can open the frame/start updates timer 
 				view.setVisible(true);
 				timer.start();
+				
+				/*
+				while (true) {
+					theDate = new Date();
+					view.repaint();
+				try { Thread.sleep(1000); }
+					catch (InterruptedException e) { }
+				}
+				 * 
+				 */
 			}
 		});
 	}

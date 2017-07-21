@@ -41,7 +41,7 @@ public class SV_MissionSelect extends StageView {
 										JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		listScroll.setBounds(0, 0, (int) (getWidth()*0.2), (int) (getHeight()*0.5));
 		listPanel.setBounds(0, 0, listScroll.getWidth()-20, listScroll.getHeight());
-		this.add(listScroll);
+		this.addToLayer(listScroll, 1);
 		
 		
 			//Set up Mission Descriptions Panel
@@ -52,10 +52,10 @@ public class SV_MissionSelect extends StageView {
 				this.getHeight() - listScroll.getHeight()-20);
 					//Intention is to fill rest of space below scrolling list
 		//Set descLabel's sizing
-		descLabel.setMinimumSize(new Dimension(descScroll.getWidth()-20, descScroll.getHeight()));
-		descLabel.setPreferredSize(new Dimension(descScroll.getWidth()-20, descScroll.getHeight()));
+		descLabel.setMinimumSize(new Dimension(descScroll.getWidth()-20, descScroll.getHeight()-10));
+		descLabel.setPreferredSize(new Dimension(descScroll.getWidth()-20, descScroll.getHeight()-10));
 		descLabel.setMaximumSize(new Dimension(descScroll.getWidth(), 2000));
-		this.add(descScroll);
+		this.addToLayer(descScroll,1);
 	}
 	
 	/**

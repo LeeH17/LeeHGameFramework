@@ -65,6 +65,9 @@ public class S_MainMenu extends Stage {
 	public StageView getStageView()	{ return sView;	}
 	//TODO figure out why new version of getStageView() was needed
 
+	/* Don't do anything, all parts are gui handled */
+	public void update(int deltaTime) {}
+	
 	/**
 	 * Set up all relevant key binds for this stage at the given component
 	 * @param component: The component to add keybinds to. Likely to be sView

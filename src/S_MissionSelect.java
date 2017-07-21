@@ -13,13 +13,26 @@ public class S_MissionSelect extends Stage {
 				//Use arraylist so a custom mission-order can be used
 					//TODO find way to load, likely from main
 	
+	Mission currMsn;
+	JButton beginBtn;
+	
 	public S_MissionSelect(View parentView) {
 		super(parentView);
 		
-		// TODO Auto-generated constructor stub
 		sView = new SV_MissionSelect(parentView);
 		
 		loadMissions();
+		
+		//Set up begin current mission button
+		beginBtn = new JButton("Begin Mission!");
+		beginBtn.setActionCommand("begin");
+		beginBtn.addActionListener(this);
+		beginBtn.setVisible(false);
+		beginBtn.setBounds(	(int) (sView.getWidth()*0.6-70),
+								(int) (sView.getHeight()*0.9),
+								140, 40);
+		//sView.add(beginBtn);
+		sView.addToLayer(beginBtn, 1);
 	}
 	
 	/**
@@ -51,17 +64,7 @@ public class S_MissionSelect extends Stage {
 			newButton.setActionCommand("msn" + i);
 			newButton.addActionListener(this);
 			
-			/*MenuButton newButton = new MenuButton(msn.getName(),
-					parent, this, msn.getID()) {
-				public void buttonFunction() {
-					System.out.println("Selected mission: "
-							+ this.getLabel());
-					//TODO fill out to put description in description pane
-					//parent.describeMission(this.getName());
-					//parent.sView.add
-			}};*/
 			sView.addToList(newButton);
-			
 			
 			//TODO and add map pins
 		}
@@ -89,6 +92,9 @@ public class S_MissionSelect extends Stage {
 
 	@Override
 	public StageView getStageView() { return sView;	}
+	
+	/* Don't do anything, all parts are gui handled */
+	public void update(int deltaTime) {}
 
 	@Override
 	public void setUpKeyBinds(JComponent component) {
@@ -103,6 +109,12 @@ public class S_MissionSelect extends Stage {
 			//We have determined this is a mission selected command
 			int missionNumber = Integer.parseInt(e.getActionCommand().substring(3));
 			sView.setActiveMission(missions.get(missionNumber));
+			currMsn = missions.get(missionNumber);
+			beginBtn.setVisible(true);
+		} else if(e.getActionCommand().equals("begin")) {
+			//parent.switchStages(new S_Mission(parent, currMsn));
+			parent.switchStages(new S_Mission(parent));
+			System.out.println("Switching stages");
 		} else {
 			System.out.println("Unknown ActionEvent: " + e);
 		}

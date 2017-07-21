@@ -21,6 +21,14 @@ public abstract class Stage implements ActionListener{
 	}
 	
 	/**
+	 * Update the model side of the game to change according
+	 *  to the given amount of change in milliseconds
+	 * @param deltaTime: The number of milliseconds that have
+	 * 						passed since the last update
+	 */
+	public abstract void update(int deltaTime);
+	
+	/**
 	 * Gives a reference to sView.
 	 * This way, changes can be made to it during gameplay.
 	 * Note!: Be careful, example of reference exposure
