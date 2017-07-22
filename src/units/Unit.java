@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import stages.S_Mission;
@@ -12,12 +13,11 @@ import stages.S_Mission;
  * To represent a given moving entity; hero or enemy
  * @author Harrison Lee
  */
-public abstract class Unit {
+public abstract class Unit extends Rectangle{
 	UnitView uView;
 	S_Mission parent;
 	int statusOffset;
 	
-	int x, y;
 	int targetX;
 	int targetY;
 
@@ -32,21 +32,20 @@ public abstract class Unit {
 	//Refers to value to reset delay to.
 	//Essentially millisecond cooldown between actions
 	
-	int width, height;
 	int hp, maxHp;
 	int dmg;	//The amount of damage that can be dealt
 	
 	/* Subclasses must assign: name, allied, moveSpeed,
 	 * reset, width, height, maxHp, hp, dmg */
-	public Unit(int initX, int initY, S_Mission newParent){
+	public Unit(int initX, int initY,
+			int initWidth, int initHeight,
+			S_Mission newParent){
+		super(initX, initY, initWidth, initHeight);
 		//Set initial values
 		targetX = initX;
 		targetY = initY;
-		x = initX;
-		y = initY;
 		delay = 0;
 		parent = newParent;
-		
 		//Set default values
 		statusOffset = 15;	//Redefine pending status type
 	}
@@ -104,7 +103,6 @@ public abstract class Unit {
 	}
 	//TODO private abstract void paintSupplyBar 
 	
-	
 	/**
 	 * At every game tick, do this. This default form
 	 * 	currently only steps unit towards target position
@@ -126,12 +124,12 @@ public abstract class Unit {
 	/**
 	 * Sets the given position as the target to move to
 	 * 	over time.
-	 * @param x: The x pixel position
-	 * @param y: The y pixel position
+	 * @param newX: The x pixel position
+	 * @param newY: The y pixel position
 	 */
-	public void moveTo(int x, int y){
-		targetX = x;
-		targetY = y;
+	public void moveTo(int newX, int newY){
+		targetX = newX;
+		targetY = newY;
 	}
 	
 	/**
@@ -215,10 +213,6 @@ public abstract class Unit {
 	
 	/* Simple getter functions */
 	public String getName() { return name;	}
-	public int getX()		{ return x;		}
-	public int getY()		{ return y;		}
-	public int getWidth()	{ return width;	}
-	public int getHeight()	{ return height;}
 	public int getHp()		{ return hp;	}
 	public int getStatusOffset() 	{ return statusOffset; }
 	public boolean isControllable()	{ return allied; }

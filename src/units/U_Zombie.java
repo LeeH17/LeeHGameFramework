@@ -15,14 +15,12 @@ import stages.S_Mission;
 public class U_Zombie extends Unit {
 
 	public U_Zombie(int initX, int initY, S_Mission parent) {
-		super(initX, initY, parent);
+		super(initX, initY, 30, 30, parent);
 		
 		//Set zombie-specific values
 		name="";	//Unnamed zombie
 		moveSpeed = 10;
 		reset = 300;	//Re-target every 0.3 seconds
-		width = 30;
-		height = 30;
 		allied = false;
 		maxHp = 40;
 		hp = 30;
@@ -40,8 +38,7 @@ public class U_Zombie extends Unit {
 			return;	//Don't react yet
 		
 		Unit target = getClosest(targets);
-		
-		moveTo(target.getX(), target.getY());
+		moveTo((int) target.getX(), (int) target.getY());
 	}
 	
 	public void die(){
@@ -56,7 +53,7 @@ public class U_Zombie extends Unit {
 	@Override
 	public void paintUnit(Graphics2D g) {
 		g.setColor(Color.GREEN);
-		g.fillRect(0, statusOffset, getWidth(), getHeight());
+		g.fillRect(0, statusOffset, (int) getWidth(), (int) getHeight());
 	}
 
 }

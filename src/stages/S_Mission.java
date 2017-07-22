@@ -1,4 +1,5 @@
 package stages;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -14,7 +15,6 @@ import overhead.View;
 import units.*;
 
 public class S_Mission extends Stage implements MouseListener{
-
 	SV_Mission sView;
 	
 	Mission currMsn;	//Keep track of current mission's data
@@ -37,7 +37,6 @@ public class S_Mission extends Stage implements MouseListener{
 	
 	public S_Mission(View viewParent, Mission loadMission) {
 		super(viewParent);
-		
 		sView = new SV_Mission(viewParent);
 		sView.addMouseListener(this);
 		
@@ -71,8 +70,8 @@ public class S_Mission extends Stage implements MouseListener{
 			zombieCounter++;
 			for(int i=0; i<zombieCounter; i++){
 				U_Zombie newZombie = new U_Zombie(
-					(int) (Math.random()*400), 
-					(int) (Math.random()*400), this);
+					(int) (Math.random()*300), 
+					(int) (Math.random()*300), this);
 				zombies.add(newZombie);
 			}
 		}

@@ -14,6 +14,8 @@ public class ParticleEffect {
 	Shape shape;
 	Color color;
 	int duration;
+	//Note: Do not reduce duration below 10!
+		//Below that effect may not appear
 	int id;			//The index id of this particle in sView
 	
 	public ParticleEffect(Shape newShape, Color newColor,

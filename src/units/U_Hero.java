@@ -14,7 +14,7 @@ public class U_Hero extends Unit{
 	
 	public U_Hero(String newName, int initX, int initY,
 			S_Mission parent) {
-		super(initX, initY, parent);
+		super(initX, initY, 40, 40, parent);
 		
 		//Set hero-specific values
 		name = newName;
@@ -53,7 +53,7 @@ public class U_Hero extends Unit{
 		Line2D bulletStreak = new Line2D.Double(
 				this.getX(), this.getY(),
 				target.getX(), target.getY());
-		ParticleEffect effect = new ParticleEffect(bulletStreak, Color.YELLOW, 0);
+		ParticleEffect effect = new ParticleEffect(bulletStreak, Color.YELLOW, 15);
 		parent.getStageView().drawEffect(effect);
 	}
 	
@@ -69,6 +69,6 @@ public class U_Hero extends Unit{
 	public void paintUnit(Graphics2D g){
 		//Place holder graphics
 		g.setColor(Color.BLUE);
-		g.fillRect(0, statusOffset, getWidth(), getHeight());
+		g.fillRect(0, statusOffset, (int) getWidth(), (int) getHeight());
 	}
 }

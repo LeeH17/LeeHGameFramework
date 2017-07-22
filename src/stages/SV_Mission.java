@@ -55,17 +55,16 @@ public class SV_Mission extends StageView {
 		//Draw selection cursor
 		if(selected != null){
 			g.setColor(Color.WHITE);
-			gThick.drawRect(selected.getX()-1, selected.getY()-1,
-					selected.getWidth()+1, selected.getHeight()+1);
+			gThick.drawRect((int) selected.getX()-1, (int) selected.getY()-1,
+					(int) selected.getWidth()+1, (int) selected.getHeight()+1);
 		}
 		
 		//Paint all particle effects queued
 		for(ParticleEffect effect: particles){
 			effect.paint(gThick);
-			effect.reduceDuration(10);
+			effect.reduceDuration(10);	//~main's timer update rate
 		}
 		//Clear expired particle effects queue
-		//particles.clear();
 		for(int i=particles.size()-1;i >= 0; i-= 1){
 			if(particles.get(i).getDuration() < 0){
 				particles.remove(i);
