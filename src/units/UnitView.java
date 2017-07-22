@@ -1,4 +1,4 @@
-package gameplayElements;
+package units;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -10,7 +10,7 @@ import javax.swing.JLabel;
  * To represent the view of a given unit
  * @author Harrison Lee
  */
-public class UnitView extends JLabel{
+public abstract class UnitView extends JLabel{
 	//BufferedImage sprite
 	//BufferedImage[] movementAnim
 	//public void updateSpriteAnim
@@ -22,9 +22,11 @@ public class UnitView extends JLabel{
 	
 	public UnitView(Unit newUnit){
 		super();
+		
+		//Set default values
 		unit = newUnit;
 		font = new Font(Font.DIALOG, Font.BOLD, 12);
-		this.setText(unit.getName());
+		setLocation(unit.getX(), unit.getY());
 	}
 	
 	/* Simple get function */
@@ -32,19 +34,36 @@ public class UnitView extends JLabel{
 	
 	@Override
 	public void paint(Graphics g){
-		//Place holder graphics
-		g.setColor(Color.BLUE);
-		g.fillRect(0, 10, getWidth(), getHeight()-10);
-		//g.drawImage...
-	
-		//Draw name tag
-		g.setColor(Color.DARK_GRAY);
-		g.setFont(font);
-		g.drawString(unit.getName(), 0, 9);
-		//TODO this is kinda hacky, magic numbers, adjust? Separate "status bar" object?
+		paintUnit(g);
+		
+		paintStatusBar(g);
 		
 		super.paint(g);
 	}
+	
+	/**
+	 * Abstract function to force subclasses to define
+	 * how to paint the character itself.
+	 * Intended for usage in paint
+	 * @param g: The graphics object we are painting with
+	 */
+	protected abstract void paintUnit(Graphics g);
+	
+	/**
+	 * Function to paint the status bar and name tag
+	 * 	for this unit.
+	 * Intended for usage in paint
+	 * @param g: The graphics object we are painting with
+	 */
+	protected void paintStatusBar(Graphics g){
+		//Draw name tag
+		g.setColor(Color.DARK_GRAY);
+		g.setFont(font);
+		g.drawString(unit.getName(), 0, 10);
+		//TODO this is kinda hacky, magic numbers, adjust? Separate "status bar" object?
+		
+	}
+	//TODO private abstract void paintSupplyBar 
 }
 
 

@@ -1,11 +1,11 @@
-package gameplayElements;
+package units;
 import stages.S_Mission;
 
 /**
  * To represent a given moving entity; hero or enemy
  * @author Harrison Lee
  */
-public class Unit {
+public abstract class Unit {
 	UnitView uView;
 	
 	int x, y;
@@ -19,17 +19,23 @@ public class Unit {
 	public Unit(String newName, int initX, int initY,
 			S_Mission parent){
 		//Set initial values
-		moveSpeed = 30;
 		targetX = initX;
 		targetY = initY;
 		x = initX;
 		y = initY;
 		name = newName;
-		
-		//Set up graphics
-		uView = new UnitView(this);
-		uView.setSize(30, 40);
-		uView.setLocation(initX, initY);
+	}
+	
+	/**
+	 * Use this to set up unit view.
+	 * Intended to allow custom unit views to be easily
+	 * 	made in subclasses' constructors
+	 * @param newUView: The specific unit view to be used
+	 * @param parent: The parent stage of the unit
+	 */
+	protected void setUpUnitView(UnitView newUView,
+			S_Mission parent){
+		uView = newUView;
 		parent.getStageView().addToLayer(uView, 1);
 		uView.addMouseListener(parent);
 	}
@@ -98,7 +104,9 @@ public class Unit {
 	}
 	
 	/* Simple getter functions */
-	public String getName() { return name; }
+	public String getName() { return name;	}
+	public int getX()		{ return x;		}
+	public int getY()		{ return y;		}
 }
 
 	

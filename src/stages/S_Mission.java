@@ -7,11 +7,10 @@ import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
 import gameplayElements.Mission;
-import gameplayElements.Unit;
-import gameplayElements.UnitView;
 import overhead.Stage;
 import overhead.StageView;
 import overhead.View;
+import units.*;
 
 public class S_Mission extends Stage implements MouseListener{
 
@@ -19,7 +18,7 @@ public class S_Mission extends Stage implements MouseListener{
 	Unit[] heroes;
 	
 	//Controls
-	Unit selected;
+	U_Hero selected;
 	
 	/**
 	 * Placeholder testing constructor
@@ -37,9 +36,9 @@ public class S_Mission extends Stage implements MouseListener{
 		
 		currMsn = loadMission;
 		heroes = new Unit[3];
-		heroes[0] = new Unit("1", 200, 200, this);
-		heroes[1] = new Unit("2", 300, 200, this);
-		heroes[2] = new Unit("3", 400, 200, this);
+		heroes[0] = new U_Hero("1", 200, 200, this);
+		heroes[1] = new U_Hero("2", 300, 200, this);
+		heroes[2] = new U_Hero("3", 400, 200, this);
 	}
 	
 	public void update(int deltaTime){
@@ -66,12 +65,12 @@ public class S_Mission extends Stage implements MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
-		if(e.getComponent().getClass().equals(UnitView.class)){
-			//Unit click
+		if(e.getComponent().getClass().equals(UV_Hero.class)){
+			//Controllable hero clickd
 			
 			//Translate unit
-			UnitView uv = (UnitView) e.getComponent();
-			Unit clicked = uv.getUnit();
+			UV_Hero uv = (UV_Hero) e.getComponent();
+			U_Hero clicked = (U_Hero) uv.getUnit();
 			
 			if(SwingUtilities.isLeftMouseButton(e)) {
 				//Then prepare to move the unit, assuming it
@@ -85,7 +84,7 @@ public class S_Mission extends Stage implements MouseListener{
 			}
 
 		} else if(e.getComponent().getClass().equals(sView.getClass())){
-			//Map click
+			//Map clickd
 			
 			if(SwingUtilities.isRightMouseButton(e)) {
 				//We right-clicked on the map.
