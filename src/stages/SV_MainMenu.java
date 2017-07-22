@@ -1,3 +1,4 @@
+package stages;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -7,6 +8,9 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+
+import overhead.StageView;
+import overhead.View;
 
 /**
  * StageView corresponding to the main menu

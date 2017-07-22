@@ -1,3 +1,4 @@
+package stages;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 
@@ -5,6 +6,10 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+
+import overhead.Stage;
+import overhead.StageView;
+import overhead.View;
 
 /**
  * Stage to correspond to the Main Menu.

@@ -1,3 +1,5 @@
+package overhead;
+
 import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
@@ -11,10 +13,10 @@ import javax.swing.KeyStroke;
  */
 public abstract class Stage implements ActionListener{
 	//The sView manages the visual part of the stage
-	StageView sView;
+	protected StageView sView;
 	
 	//Maintain a connection to the containing View object
-	View parent;
+	protected View parent;
 	
 	public Stage(View viewParent){
 		parent = viewParent;

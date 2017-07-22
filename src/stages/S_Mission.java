@@ -1,8 +1,17 @@
+package stages;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
+
+import gameplayElements.Mission;
+import gameplayElements.Unit;
+import gameplayElements.UnitView;
+import overhead.Stage;
+import overhead.StageView;
+import overhead.View;
 
 public class S_Mission extends Stage implements MouseListener{
 
@@ -27,8 +36,10 @@ public class S_Mission extends Stage implements MouseListener{
 		sView.addMouseListener(this);
 		
 		currMsn = loadMission;
-		heroes = new Unit[1];
-		heroes[0] = new Unit(30, 200, 200, this);
+		heroes = new Unit[3];
+		heroes[0] = new Unit("1", 200, 200, this);
+		heroes[1] = new Unit("2", 300, 200, this);
+		heroes[2] = new Unit("3", 400, 200, this);
 	}
 	
 	public void update(int deltaTime){
@@ -54,30 +65,39 @@ public class S_Mission extends Stage implements MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		//If we have clicked a unit
+		
 		if(e.getComponent().getClass().equals(UnitView.class)){
+			//Unit click
+			
 			//Translate unit
 			UnitView uv = (UnitView) e.getComponent();
 			Unit clicked = uv.getUnit();
 			
-			//Then prepare to move the unit, assuming it
-			//	wasn't one we had already selected
-			if(!clicked.equals(selected)) {
-				selected = clicked;
-			} else {
-				//De-select if we are clicking selected
-				selected = null;
+			if(SwingUtilities.isLeftMouseButton(e)) {
+				//Then prepare to move the unit, assuming it
+				//	wasn't one we had already selected
+				if(!clicked.equals(selected)) {
+					selected = clicked;
+				} else {
+					//De-select if we are clicking selected
+					selected = null;
+				}
 			}
-			
+
 		} else if(e.getComponent().getClass().equals(sView.getClass())){
-			//We clicked on the map.
-			//Move selected, assuming it is not null
-			if(selected != null){
-				selected.moveTo(e.getX(), e.getY());
+			//Map click
+			
+			if(SwingUtilities.isRightMouseButton(e)) {
+				//We right-clicked on the map.
+				//Move selected, assuming it is not null
+				if(selected != null){
+					selected.moveTo(e.getX(), e.getY());
+				}
 			}
 		} else {
-			System.out.println("Error: Clicked unknown, \n"+e);
+			System.err.println("Error: Clicked unknown, \n"+e);
 		}
+		
 	}
 
 	@Override

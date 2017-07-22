@@ -1,3 +1,4 @@
+package gameplayElements;
 /**
  * An abstract class that holds a mission's information.
  * Will provide mission details for MissionSelect stage

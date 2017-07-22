@@ -1,3 +1,4 @@
+package stages;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -12,6 +13,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import gameplayElements.Mission;
+import overhead.StageView;
+import overhead.View;
 
 public class SV_MissionSelect extends StageView {
 

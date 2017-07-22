@@ -1,8 +1,14 @@
+package stages;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+
+import gameplayElements.Mission;
+import overhead.Stage;
+import overhead.StageView;
+import overhead.View;
 
 
 public class S_MissionSelect extends Stage {
@@ -114,7 +120,6 @@ public class S_MissionSelect extends Stage {
 		} else if(e.getActionCommand().equals("begin")) {
 			//parent.switchStages(new S_Mission(parent, currMsn));
 			parent.switchStages(new S_Mission(parent));
-			System.out.println("Switching stages");
 		} else {
 			System.out.println("Unknown ActionEvent: " + e);
 		}

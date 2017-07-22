@@ -1,10 +1,15 @@
+package stages;
 import java.awt.Color;
 import java.awt.Graphics;
+
+import overhead.StageView;
+import overhead.View;
 
 public class SV_Mission extends StageView {
 
 	public SV_Mission(View parentView) {
 		super(parentView);
+		this.setLayout(null);
 	}
 	
 	@Override

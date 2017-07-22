@@ -1,9 +1,13 @@
+package overhead;
+
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
+
+import stages.*;
 
 /**
  * Main: Hold and binds the other classes in MVC pattern
@@ -33,7 +37,7 @@ public class Main {
 			public void run(){	//Note: This runs once
 				//Set up the view with currStage
 				View view = new View();//main.currStage);
-				main.setCurrStage(new S_Mission(view));
+				main.setCurrStage(new S_MainMenu(view));
 				view.switchStages(main.currStage);
 				
 				//Set up resizing stuff
@@ -45,7 +49,7 @@ public class Main {
 					public void actionPerformed(ActionEvent e){
 						//TODO run only when needed, don't update otherwise
 						view.repaint();
-						currStage.update(10);
+						view.currStage.update(10);
 					}
 				});
 				

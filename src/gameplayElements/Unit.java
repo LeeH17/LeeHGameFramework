@@ -1,3 +1,5 @@
+package gameplayElements;
+import stages.S_Mission;
 
 /**
  * To represent a given moving entity; hero or enemy
@@ -12,28 +14,30 @@ public class Unit {
 	
 	int targetX;
 	int targetY;
+	String name;
 	
-	public Unit(int moveSpeed, int initX, int initY,
+	public Unit(String newName, int initX, int initY,
 			S_Mission parent){
 		//Set initial values
-		this.moveSpeed = moveSpeed;
+		moveSpeed = 30;
 		targetX = initX;
 		targetY = initY;
 		x = initX;
 		y = initY;
+		name = newName;
 		
 		//Set up graphics
 		uView = new UnitView(this);
-		uView.setSize(30, 30);
+		uView.setSize(30, 40);
 		uView.setLocation(initX, initY);
-		System.out.println(uView.getLocation());
 		parent.getStageView().addToLayer(uView, 1);
 		uView.addMouseListener(parent);
-		System.out.println(uView.getLocation());
 	}
 	
 	public void update(int deltaTime){
-		step(deltaTime);
+		if(targetX != x || targetY != y) {
+			step(deltaTime);
+		}
 	}
 	
 	/**
@@ -92,6 +96,9 @@ public class Unit {
 			return target;
 		}
 	}
+	
+	/* Simple getter functions */
+	public String getName() { return name; }
 }
 
 	
