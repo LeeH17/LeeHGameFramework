@@ -18,11 +18,14 @@ public class S_Mission extends Stage implements MouseListener{
 	SV_Mission sView;
 	
 	Mission currMsn;	//Keep track of current mission's data
-	U_Hero[] heroes;
-	ArrayList<U_Zombie> zombies;
+	ArrayList<Unit> heroes;
+	ArrayList<Unit> zombies;
 	
 	//Controls
 	Unit selected;
+	
+	//TODO temp placeholder, for testing only
+	int zombieCounter;
 	
 	/**
 	 * Placeholder testing constructor
@@ -41,31 +44,42 @@ public class S_Mission extends Stage implements MouseListener{
 		currMsn = loadMission;
 		//Load in heroes
 			//Currently place holder heroes
-		heroes = new U_Hero[3];
-		heroes[0] = new U_Hero("1", 200, 200, this);
-		heroes[1] = new U_Hero("2", 300, 200, this);
-		heroes[2] = new U_Hero("3", 400, 200, this);
+		heroes = new ArrayList<Unit>();
+		heroes.add(new U_Hero("1", 200, 200, this));
+		heroes.add(new U_Hero("2", 300, 200, this));
+		heroes.add(new U_Hero("3", 400, 200, this));
 		
 		//Initialize zombies
-		zombies = new ArrayList<U_Zombie>();
+		zombies = new ArrayList<Unit>();
 		zombies.add(new U_Zombie(400, 500, this));
+		zombieCounter = 1;
 	}
 	
 	public void update(int deltaTime){
 		//Update heroes
-		for(U_Hero unit: heroes){
-			unit.update(deltaTime);
+		for(Unit hero: heroes){
+			hero.update(deltaTime);
+			hero.attack(zombies);
 		}
 		
 		//Update zombies
-		for(U_Zombie zombie: zombies) {
+		for(Unit zombie: zombies) {
 			zombie.update(deltaTime);
 			zombie.attack(heroes);
+		}
+		if(zombies.size() <= 0){
+			zombieCounter++;
+			for(int i=0; i<zombieCounter; i++){
+				U_Zombie newZombie = new U_Zombie(
+					(int) (Math.random()*400), 
+					(int) (Math.random()*400), this);
+				zombies.add(newZombie);
+			}
 		}
 	}
 	
 	@Override
-	public StageView getStageView() { return sView; }
+	public SV_Mission getStageView() { return sView; }
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -145,4 +159,7 @@ public class S_Mission extends Stage implements MouseListener{
 		
 	}
 	
+		/* Simple getter functions*/
+	public ArrayList<Unit> getZombies()	{ return zombies; }
+	public ArrayList<Unit> getHeroes()	{ return heroes; }
 }

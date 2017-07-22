@@ -1,7 +1,10 @@
 package units;
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 import stages.S_Mission;
 
@@ -11,12 +14,13 @@ import stages.S_Mission;
  */
 public abstract class Unit {
 	UnitView uView;
+	S_Mission parent;
 	int statusOffset;
 	
 	int x, y;
 	int targetX;
 	int targetY;
-	
+
 	int delay;	//Refers to delay until next action
 	
 	
@@ -29,20 +33,32 @@ public abstract class Unit {
 	//Essentially millisecond cooldown between actions
 	
 	int width, height;
+	int hp, maxHp;
+	int dmg;	//The amount of damage that can be dealt
 	
-	
-	/* Subclasses must assign: name, moveSpeed, reset
-	 * , width, height, allied */
-	public Unit(int initX, int initY, S_Mission parent){
+	/* Subclasses must assign: name, allied, moveSpeed,
+	 * reset, width, height, maxHp, hp, dmg */
+	public Unit(int initX, int initY, S_Mission newParent){
 		//Set initial values
 		targetX = initX;
 		targetY = initY;
 		x = initX;
 		y = initY;
 		delay = 0;
+		parent = newParent;
 		
 		//Set default values
 		statusOffset = 15;	//Redefine pending status type
+	}
+
+		/* Unit-type specific behaviors (model-side) */
+	public abstract void attack(ArrayList<Unit> targets);
+	public abstract void die();
+	public void takeDamage(int dmg){
+		hp -= dmg;
+		if(hp <= 0) { //Check for death
+			die();
+		}
 	}
 	
 	/**
@@ -60,7 +76,7 @@ public abstract class Unit {
 		uView.setSize(width, height+statusOffset);
 	}
 	
-		/* Unit Painting */
+		/* Unit-type specific behaviors (view-side) */
 	/* Subtypes will define how unit is painted */
 	public abstract void paintUnit(Graphics2D g);
 	/**
@@ -74,10 +90,20 @@ public abstract class Unit {
 		g.setColor(Color.DARK_GRAY);
 		if(allied) {
 			//Note: drawString draws from the bottom left
-			g.drawString(getName(), 0, statusOffset);
+			g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
+			g.drawString(getName(), 0, statusOffset-3);
 		}
+		g.setStroke(new BasicStroke(3));
+		g.setColor(Color.RED);
+		g.drawLine(0, statusOffset-3, width, statusOffset-3);
+		g.setColor(Color.GREEN);
+		double hpPercent = hp;
+		hpPercent = hpPercent/maxHp;
+		g.drawLine(0, statusOffset-3,
+				(int) (width*hpPercent), statusOffset-3);
 	}
 	//TODO private abstract void paintSupplyBar 
+	
 	
 	/**
 	 * At every game tick, do this. This default form
@@ -159,6 +185,33 @@ public abstract class Unit {
 		return (int) Math.sqrt((target.x-this.x)*(target.x-this.x)
 				+ (target.y-this.y)*(target.y-this.y));
 	}
+	/**
+	 * Simple method to find closest potential target
+	 * @param targets: An arraylist of potential targets to choose from
+	 * @return the closest of the targets with > 0 hp
+	 */
+	public Unit getClosest(ArrayList<Unit> targets){
+		if(targets.size() <= 0)
+			return null;
+		
+		Unit target = targets.get(0);	//Initial target
+		int shortestDistance = getDistance(target);
+		int newDistance;
+		if(targets.size() > 1) {
+			for(int i=1;i<targets.size();i++){ //Already got heroes[0]
+				if(target.getHp() > 0) {
+					newDistance = getDistance(targets.get(i));
+					if(shortestDistance > newDistance) {
+						//Replace with new target if new target is closer
+						//TODO consider replacing with "threat levels"? sound/decoys?
+						shortestDistance = newDistance;
+						target = targets.get(i);
+					}
+				}
+			}
+		}
+		return target;
+	}
 	
 	/* Simple getter functions */
 	public String getName() { return name;	}
@@ -166,6 +219,7 @@ public abstract class Unit {
 	public int getY()		{ return y;		}
 	public int getWidth()	{ return width;	}
 	public int getHeight()	{ return height;}
+	public int getHp()		{ return hp;	}
 	public int getStatusOffset() 	{ return statusOffset; }
 	public boolean isControllable()	{ return allied; }
 }

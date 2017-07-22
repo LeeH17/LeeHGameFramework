@@ -55,17 +55,7 @@ public class Main {
 				
 				//Now we can open the frame/start updates timer 
 				view.setVisible(true);
-				timer.start();
-				
-				/*
-				while (true) {
-					theDate = new Date();
-					view.repaint();
-				try { Thread.sleep(1000); }
-					catch (InterruptedException e) { }
-				}
-				 * 
-				 */
+				timer.start();	//TODO consider starting AFTER loading?
 			}
 		});
 	}
