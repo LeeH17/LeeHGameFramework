@@ -49,7 +49,7 @@ public class U_Hero extends Unit{
 		
 		target.takeDamage(dmg);
 		
-		//Draw bullet streak - just a simple yellow line with 0 duration
+		//Draw bullet streak - just a simple yellow line with low duration
 		Line2D bulletStreak = new Line2D.Double(
 				this.getX(), this.getY(),
 				target.getX(), target.getY());

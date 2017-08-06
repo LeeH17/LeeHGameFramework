@@ -1,5 +1,4 @@
 package stages;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -10,7 +9,6 @@ import javax.swing.SwingUtilities;
 
 import gameplayElements.Mission;
 import overhead.Stage;
-import overhead.StageView;
 import overhead.View;
 import units.*;
 
@@ -23,6 +21,8 @@ public class S_Mission extends Stage implements MouseListener{
 	
 	//Controls
 	Unit selected;
+	
+	UnitManager manager;
 	
 	//TODO temp placeholder, for testing only
 	int zombieCounter;
@@ -41,6 +41,8 @@ public class S_Mission extends Stage implements MouseListener{
 		sView.addMouseListener(this);
 		
 		currMsn = loadMission;
+		manager = new UnitManager(sView.getWidth(), sView.getHeight());
+		
 		//Load in heroes
 			//Currently place holder heroes
 		heroes = new ArrayList<Unit>();
