@@ -61,6 +61,41 @@ public abstract class Unit extends Rectangle{
 	}
 	
 	/**
+	 * Enact the effects of colliding with another unit
+	 * @param other: The other thing being collided with
+	 * @param intersection: The overlap between the two
+	 */
+	public void collide(Unit other, Rectangle intersection){
+		//Basic effect is just to push away from each other
+		//Here, we push this back half the distance between
+		//	it and other.
+		
+		//First, find shortest push axis, x or y?
+		int mod = 0;
+		if(intersection.getWidth() < intersection.getHeight()){
+			//X-Axis
+			if(this.getX() < other.getX()){	//Before other
+				mod = -1;
+			} else {
+				mod =  1;
+			}
+			
+			this.x += intersection.getWidth() * mod;
+		} else {
+			//Y-Axis
+			if(this.getY() < other.getY()){	//Above other
+				mod = -1;
+			} else {
+				mod =  1;
+			}
+			
+			this.y += intersection.getHeight() * mod;
+		}
+		uView.setLocation(this.x, this.y-statusOffset);
+		//TODO pathfind around? Maybe unit specific
+	}
+	
+	/**
 	 * Use this to set up unit view, the default way
 	 * @param newUView: The specific unit view to be used
 	 * @param parent: The parent stage of the unit

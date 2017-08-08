@@ -47,7 +47,8 @@ public class U_Hero extends Unit{
 			//TODO consider, range affect fire rate (+delay)/accuracy?
 		}
 		
-		target.takeDamage(dmg);
+		//target.takeDamage(dmg);
+		//TODO: fix unit removal w/ collide, make less bouncy, and update sort
 		
 		//Draw bullet streak - just a simple yellow line with 0 duration
 		Line2D bulletStreak = new Line2D.Double(

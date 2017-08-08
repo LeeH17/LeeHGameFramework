@@ -21,6 +21,10 @@ public class S_Mission extends Stage implements MouseListener{
 	ArrayList<Unit> heroes;
 	ArrayList<Unit> zombies;
 	
+	//Hold two arraylists of all units in order,
+	//	sorted by x and y positions
+	ArrayList<Unit> xSorted, ySorted;
+	
 	//Controls
 	Unit selected;
 	
@@ -40,17 +44,20 @@ public class S_Mission extends Stage implements MouseListener{
 		sView = new SV_Mission(viewParent);
 		sView.addMouseListener(this);
 		
+		xSorted = new ArrayList<Unit>();
+		ySorted = new ArrayList<Unit>();
+		
 		currMsn = loadMission;
 		//Load in heroes
 			//Currently place holder heroes
 		heroes = new ArrayList<Unit>();
-		heroes.add(new U_Hero("1", 200, 200, this));
-		heroes.add(new U_Hero("2", 300, 200, this));
-		heroes.add(new U_Hero("3", 400, 200, this));
+		this.addUnit(new U_Hero("1", 200, 200, this));
+		this.addUnit(new U_Hero("2", 300, 200, this));
+		this.addUnit(new U_Hero("3", 400, 200, this));
 		
 		//Initialize zombies
 		zombies = new ArrayList<Unit>();
-		zombies.add(new U_Zombie(400, 500, this));
+		this.addUnit(new U_Zombie(400, 500, this));
 		zombieCounter = 1;
 	}
 	
@@ -72,8 +79,91 @@ public class S_Mission extends Stage implements MouseListener{
 				U_Zombie newZombie = new U_Zombie(
 					(int) (Math.random()*300), 
 					(int) (Math.random()*300), this);
-				zombies.add(newZombie);
+				this.addUnit(newZombie);
 			}
+		}
+		
+			//Check Collisions
+		//Go through by axis, for X to X+Width, check
+		//	intersects, prevent movement.
+		//	Check in one direction to prevent repeat checks.
+		
+		//For each unit in both xSorted and ySorted (they are same size)
+		for(int i = 0; i < xSorted.size(); i++){
+			
+			//Check collisions
+			
+			//Set temporary variables
+			int j = i+1;
+			Unit curr = xSorted.get(i);
+			Unit selected;
+			Rectangle intersection;
+			while(j<xSorted.size()){	//Go through X
+				selected = xSorted.get(j);
+				if(selected.getX() > (curr.getX() + curr.getWidth()))
+					break;
+				
+				intersection = selected.intersection(curr);
+				if(!intersection.isEmpty()){
+					curr.collide(selected, intersection);
+					selected.collide(curr, intersection);
+				}
+				j++;
+			}
+			
+			//Reset variables
+			j = i+1;
+			curr = ySorted.get(i);	//This is different from previous curr!
+			
+			while(j<ySorted.size()){	//Go through Y
+				selected = ySorted.get(j);
+				if(selected.getY() > (curr.getY() + curr.getHeight()))
+					break;
+				
+				intersection = selected.intersection(curr);
+				if(!intersection.isEmpty()){
+					curr.collide(selected, intersection);
+					selected.collide(curr, intersection);
+				}
+				j++;
+			}
+		}
+	}
+	
+	private void addUnit(Unit newUnit){
+			//Sort into category list
+		if(newUnit.getClass().equals(U_Hero.class))
+			heroes.add(newUnit);
+		else if(newUnit.getClass().equals(U_Zombie.class))
+			zombies.add(newUnit);
+		else
+			System.err.println("AddUnit(): Unrecognized unit type");
+		
+			//Sort into position list.
+		// Initial adds
+		if(xSorted.size() == 0){
+			xSorted.add(newUnit);
+			ySorted.add(newUnit);
+			return;
+		}
+		
+		boolean xDone = false;	//Keep track of which have been sorted
+		boolean yDone = false;
+		for(int i = 0; i < xSorted.size() + 1; i++){
+			//Both xSorted and ySorted are the same size,
+			//	the total number of units.
+			if(!xDone && newUnit.getX() >= xSorted.get(i).getX()){
+				xSorted.add(i, newUnit);
+				xDone = true;
+				//Will assign i as index, shift old back
+			}
+			if(!yDone && newUnit.getY() >= ySorted.get(i).getY()){
+				ySorted.add(i, newUnit);
+				yDone = true;
+			}
+			
+			if(xDone && yDone)
+				break;
 		}
 	}
 	

@@ -13,7 +13,7 @@ import stages.S_Mission;
  * @author HarrisonLee
  */
 public class U_Zombie extends Unit {
-
+	
 	public U_Zombie(int initX, int initY, S_Mission parent) {
 		super(initX, initY, 30, 30, parent);
 		
@@ -39,6 +39,16 @@ public class U_Zombie extends Unit {
 		
 		Unit target = getClosest(targets);
 		moveTo((int) target.getX(), (int) target.getY());
+	}
+	
+	@Override
+	public void collide(Unit other){
+		super.collide(other);
+		/*if(other.getClass().equals(U_Zombie.class)){
+			U_Zombie test = (U_Zombie) other;
+		} TODO: zombies pushing on each other -> buff dmg, buff enough to break walls with high enough clump size requirements 
+		
+		Also: deal damage on collide to heroes*/
 	}
 	
 	public void die(){
