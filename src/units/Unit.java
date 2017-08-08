@@ -70,6 +70,8 @@ public abstract class Unit extends Rectangle{
 		//Here, we push this back half the distance between
 		//	it and other.
 		
+		name = "Collided";
+		
 		//First, find shortest push axis, x or y?
 		int mod = 0;
 		if(intersection.getWidth() < intersection.getHeight()){
@@ -122,11 +124,11 @@ public abstract class Unit extends Rectangle{
 	public void paintStatusBar(Graphics2D g){
 		//Draw name tag
 		g.setColor(Color.DARK_GRAY);
-		if(allied) {
+		//if(allied) {
 			//Note: drawString draws from the bottom left
 			g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
 			g.drawString(getName(), 0, statusOffset-3);
-		}
+		//}
 		g.setStroke(new BasicStroke(3));
 		g.setColor(Color.RED);
 		g.drawLine(0, statusOffset-3, width, statusOffset-3);

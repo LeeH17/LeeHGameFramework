@@ -3,6 +3,7 @@ package units;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
@@ -42,8 +43,8 @@ public class U_Zombie extends Unit {
 	}
 	
 	@Override
-	public void collide(Unit other){
-		super.collide(other);
+	public void collide(Unit other, Rectangle intersection){
+		super.collide(other, intersection);
 		/*if(other.getClass().equals(U_Zombie.class)){
 			U_Zombie test = (U_Zombie) other;
 		} TODO: zombies pushing on each other -> buff dmg, buff enough to break walls with high enough clump size requirements 
@@ -52,7 +53,7 @@ public class U_Zombie extends Unit {
 	}
 	
 	public void die(){
-		parent.getZombies().remove(this);
+		parent.removeUnit(this);
 		uView.getParent().remove(uView);
 		//Will get collected by garbage collection?
 		Ellipse2D bloodstain = new Ellipse2D.Double(x+10, y+10, 10, 10);

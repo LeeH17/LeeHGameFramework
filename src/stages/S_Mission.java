@@ -58,7 +58,7 @@ public class S_Mission extends Stage implements MouseListener{
 		//Initialize zombies
 		zombies = new ArrayList<Unit>();
 		this.addUnit(new U_Zombie(400, 500, this));
-		zombieCounter = 1;
+		zombieCounter = 5;
 	}
 	
 	public void update(int deltaTime){
@@ -73,6 +73,8 @@ public class S_Mission extends Stage implements MouseListener{
 			zombie.update(deltaTime);
 			zombie.attack(heroes);
 		}
+		
+		//Make more zombies if needed
 		if(zombies.size() <= 0){
 			zombieCounter++;
 			for(int i=0; i<zombieCounter; i++){
@@ -88,11 +90,8 @@ public class S_Mission extends Stage implements MouseListener{
 		//	intersects, prevent movement.
 		//	Check in one direction to prevent repeat checks.
 		
-		//For each unit in both xSorted and ySorted (they are same size)
+		//For each unit in both xSorted and ySorted,  check collisions
 		for(int i = 0; i < xSorted.size(); i++){
-			
-			//Check collisions
-			
 			//Set temporary variables
 			int j = i+1;
 			Unit curr = xSorted.get(i);
@@ -110,10 +109,13 @@ public class S_Mission extends Stage implements MouseListener{
 				}
 				j++;
 			}
-			
-			//Reset variables
-			j = i+1;
-			curr = ySorted.get(i);	//This is different from previous curr!
+		}	
+		//Repeat for y
+		for(int i=0; i<ySorted.size(); i++) {
+			int j = i+1;
+			Unit curr = ySorted.get(i);
+			Unit selected;
+			Rectangle intersection;
 			
 			while(j<ySorted.size()){	//Go through Y
 				selected = ySorted.get(j);
@@ -147,9 +149,32 @@ public class S_Mission extends Stage implements MouseListener{
 			return;
 		}
 		
+		for(int i=0;i<=xSorted.size();i++){
+			if(i == xSorted.size()){
+				xSorted.add(newUnit);
+				break;
+			}
+			if(newUnit.getX() >= xSorted.get(i).getX()){
+				xSorted.add(i, newUnit);
+				break;
+			}
+		}
+		
+		for(int i=0;i<=ySorted.size();i++){
+			if(i == ySorted.size()){
+				ySorted.add(newUnit);
+				break;
+			}
+			if(newUnit.getY() >= ySorted.get(i).getY()){
+				ySorted.add(i, newUnit);
+				break;
+			}
+		}
+		
+		/*
 		boolean xDone = false;	//Keep track of which have been sorted
 		boolean yDone = false;
-		for(int i = 0; i < xSorted.size() + 1; i++){
+		for(int i = 0; i < ySorted.size(); i++){
 			//Both xSorted and ySorted are the same size,
 			//	the total number of units.
 			if(!xDone && newUnit.getX() >= xSorted.get(i).getX()){
@@ -162,9 +187,24 @@ public class S_Mission extends Stage implements MouseListener{
 				yDone = true;
 			}
 			
-			if(xDone && yDone)
+			if(xDone && yDone) {
 				break;
+			}
+		}*/
+	}
+	
+	/**
+	 * Remove the given unit from all lists holding it.
+	 * @param unit
+	 */
+	public void removeUnit(Unit unit){
+		if(unit.getClass().equals(U_Zombie.class)){
+			zombies.remove(unit);
+		} else if(unit.getClass().equals(U_Hero.class)){
+			heroes.remove(unit);
 		}
+		xSorted.remove(unit);
+		ySorted.remove(unit);
 	}
 	
 	@Override
