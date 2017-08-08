@@ -15,6 +15,7 @@ import stages.S_Mission;
  */
 public abstract class Unit extends Rectangle{
 	UnitView uView;
+	StatusBar status;
 	S_Mission parent;
 	int statusOffset;
 	
@@ -52,7 +53,11 @@ public abstract class Unit extends Rectangle{
 
 		/* Unit-type specific behaviors (model-side) */
 	public abstract void attack(ArrayList<Unit> targets);
-	public abstract void die();
+	public void die() {
+		parent.removeUnit(this);
+		uView.getParent().remove(status);
+		uView.getParent().remove(uView);
+	}
 	public void takeDamage(int dmg){
 		hp -= dmg;
 		if(hp <= 0) { //Check for death
@@ -66,11 +71,11 @@ public abstract class Unit extends Rectangle{
 	 * @param intersection: The overlap between the two
 	 */
 	public void collide(Unit other, Rectangle intersection){
-		//Basic effect is just to push away from each other
-		//Here, we push this back half the distance between
-		//	it and other.
+		//Basic effect is just to push away from each other,
+		//	prevent walking through each other
 		
-		name = "Collided";
+		int newX = this.x;
+		int newY = this.y;
 		
 		//First, find shortest push axis, x or y?
 		int mod = 0;
@@ -82,7 +87,7 @@ public abstract class Unit extends Rectangle{
 				mod =  1;
 			}
 			
-			this.x += intersection.getWidth() * mod;
+			newX += intersection.getWidth() * mod;
 		} else {
 			//Y-Axis
 			if(this.getY() < other.getY()){	//Above other
@@ -91,9 +96,9 @@ public abstract class Unit extends Rectangle{
 				mod =  1;
 			}
 			
-			this.y += intersection.getHeight() * mod;
+			newY += intersection.getHeight() * mod;
 		}
-		uView.setLocation(this.x, this.y-statusOffset);
+		setXY(newX, newY);
 		//TODO pathfind around? Maybe unit specific
 	}
 	
@@ -108,13 +113,20 @@ public abstract class Unit extends Rectangle{
 		uView.addMouseListener(parent);
 		
 		//Set location and size, accounting for status bar
-		uView.setLocation(x, y-statusOffset);
-		uView.setSize(width, height+statusOffset);
+		uView.setLocation(x, y);
+		uView.setSize(width, height);
+		
+		//Repeat for status bar
+		status = new StatusBar(unit);
+		parent.getStageView().addToLayer(status, 2);
+		status.setLocation(x, y-statusOffset);
+		status.setSize(width, statusOffset);
 	}
 	
 		/* Unit-type specific behaviors (view-side) */
 	/* Subtypes will define how unit is painted */
 	public abstract void paintUnit(Graphics2D g);
+	
 	/**
 	 * Function to paint the status bar and name tag
 	 * 	for this unit.
@@ -124,14 +136,18 @@ public abstract class Unit extends Rectangle{
 	public void paintStatusBar(Graphics2D g){
 		//Draw name tag
 		g.setColor(Color.DARK_GRAY);
-		//if(allied) {
+		if(allied) {
 			//Note: drawString draws from the bottom left
 			g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
 			g.drawString(getName(), 0, statusOffset-3);
-		//}
+		}
+		
+		//Draw max HP bar
 		g.setStroke(new BasicStroke(3));
 		g.setColor(Color.RED);
 		g.drawLine(0, statusOffset-3, width, statusOffset-3);
+		
+		//Draw actual HP bar
 		g.setColor(Color.GREEN);
 		double hpPercent = hp;
 		hpPercent = hpPercent/maxHp;
@@ -182,9 +198,7 @@ public abstract class Unit extends Rectangle{
 		int newX = moveAlongAxis(x, deltaPos, targetX);
 		int newY = moveAlongAxis(y, deltaPos, targetY);
 		
-		x = newX;
-		y = newY;
-		uView.setLocation(newX, newY-statusOffset);
+		setXY(newX, newY);
 	}
 	
 	/**
@@ -247,12 +261,27 @@ public abstract class Unit extends Rectangle{
 		}
 		return target;
 	}
+
+	/**
+	 * Use this when changing x and y, to ensure change
+	 * is applied to all parts, including:
+	 * this, UnitView, and StatusBar
+	 * @param x: The new X coordinate
+	 * @param y: The new Y coordinate
+	 */
+	public void setXY(int newX, int newY){
+		this.x = newX;
+		this.y = newY;
+		uView.setLocation(newX, newY);
+		status.setLocation(newX, newY - statusOffset);
+	}
 	
 	/* Simple getter functions */
 	public String getName() { return name;	}
 	public int getHp()		{ return hp;	}
 	public int getStatusOffset() 	{ return statusOffset; }
 	public boolean isControllable()	{ return allied; }
+	
 }
 
 	

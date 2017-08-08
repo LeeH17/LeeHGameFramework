@@ -20,8 +20,8 @@ public class U_Hero extends Unit{
 		name = newName;
 		moveSpeed = 30;
 		reset = 500;	//0.5 seconds
-		width = 40;
-		height = 40;
+		//width = 40;
+		//height = 40;
 		allied = true;
 		maxHp = 100;
 		hp = maxHp;
@@ -58,9 +58,7 @@ public class U_Hero extends Unit{
 	}
 	
 	public void die(){
-		parent.removeUnit(this);
-		uView.getParent().remove(uView);
-		//Will get collected by garbage collection?
+		super.die();
 		Ellipse2D bloodstain = new Ellipse2D.Double(x+10, y+10, 20, 20);
 		parent.getStageView().drawEffect(
 				new ParticleEffect(bloodstain, Color.RED, 500));
@@ -69,6 +67,6 @@ public class U_Hero extends Unit{
 	public void paintUnit(Graphics2D g){
 		//Place holder graphics
 		g.setColor(Color.BLUE);
-		g.fillRect(0, statusOffset, (int) getWidth(), (int) getHeight());
+		g.fillRect(0, 0, (int) getWidth(), (int) getHeight());
 	}
 }

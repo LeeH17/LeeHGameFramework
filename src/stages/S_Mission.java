@@ -97,6 +97,7 @@ public class S_Mission extends Stage implements MouseListener{
 			Unit curr = xSorted.get(i);
 			Unit selected;
 			Rectangle intersection;
+			
 			while(j<xSorted.size()){	//Go through X
 				selected = xSorted.get(j);
 				if(selected.getX() > (curr.getX() + curr.getWidth()))
@@ -130,6 +131,9 @@ public class S_Mission extends Stage implements MouseListener{
 				j++;
 			}
 		}
+		
+		//Re-sort xSorted and ySorted
+		//TODO just swap to a sorted list?
 	}
 	
 	private void addUnit(Unit newUnit){

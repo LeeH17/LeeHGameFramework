@@ -52,10 +52,9 @@ public class U_Zombie extends Unit {
 		Also: deal damage on collide to heroes*/
 	}
 	
+	@Override
 	public void die(){
-		parent.removeUnit(this);
-		uView.getParent().remove(uView);
-		//Will get collected by garbage collection?
+		super.die();
 		Ellipse2D bloodstain = new Ellipse2D.Double(x+10, y+10, 10, 10);
 		parent.getStageView().drawEffect(
 				new ParticleEffect(bloodstain, Color.GRAY, 300));
@@ -64,7 +63,7 @@ public class U_Zombie extends Unit {
 	@Override
 	public void paintUnit(Graphics2D g) {
 		g.setColor(Color.GREEN);
-		g.fillRect(0, statusOffset, (int) getWidth(), (int) getHeight());
+		g.fillRect(0, 0, (int) getWidth(), (int) getHeight());
 	}
 
 }

@@ -40,8 +40,6 @@ public class UnitView extends JLabel{
 		
 		unit.paintUnit(g2);
 		
-		unit.paintStatusBar(g2);
-		
 		super.paint(g);
 	}
 }
