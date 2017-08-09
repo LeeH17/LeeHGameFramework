@@ -51,14 +51,17 @@ public class S_Mission extends Stage implements MouseListener{
 		//Load in heroes
 			//Currently place holder heroes
 		heroes = new ArrayList<Unit>();
-		this.addUnit(new U_Hero("1", 200, 200, this));
-		this.addUnit(new U_Hero("2", 300, 200, this));
-		this.addUnit(new U_Hero("3", 400, 200, this));
+		this.addGameObject(new U_Hero("1", 200, 200, this));
+		this.addGameObject(new U_Hero("2", 300, 200, this));
+		this.addGameObject(new U_Hero("3", 400, 200, this));
 		
 		//Initialize zombies
 		zombies = new ArrayList<Unit>();
-		this.addUnit(new U_Zombie(400, 500, this));
+		this.addGameObject(new U_Zombie(400, 500, this));
 		zombieCounter = 5;
+		
+		//Add a wall
+		this.addGameObject(new GO_Wall(250, 100, 30, 400, this));
 	}
 	
 	public void update(int deltaTime){
@@ -81,7 +84,7 @@ public class S_Mission extends Stage implements MouseListener{
 				U_Zombie newZombie = new U_Zombie(
 					(int) (Math.random()*300), 
 					(int) (Math.random()*300), this);
-				this.addUnit(newZombie);
+				this.addGameObject(newZombie);
 			}
 		}
 		
@@ -163,41 +166,41 @@ public class S_Mission extends Stage implements MouseListener{
 		}
 	}
 	
-	private void addUnit(Unit newUnit){
+	private void addGameObject(GameObject newObj){
 			//Sort into category list
-		if(newUnit.getClass().equals(U_Hero.class))
-			heroes.add(newUnit);
-		else if(newUnit.getClass().equals(U_Zombie.class))
-			zombies.add(newUnit);
-		else
-			System.err.println("AddUnit(): Unrecognized unit type");
+		if(newObj.getClass().equals(U_Hero.class))
+			heroes.add((Unit) newObj);
+		else if(newObj.getClass().equals(U_Zombie.class))
+			zombies.add((Unit) newObj);
+		else if(!newObj.getClass().equals(GO_Wall.class))
+			System.err.println("AddUnit(): Unrecognized unit type " + newObj.getClass());
 		
 			//Sort into position list.
 		// Initial adds
 		if(xSorted.size() == 0){
-			xSorted.add(newUnit);
-			ySorted.add(newUnit);
+			xSorted.add(newObj);
+			ySorted.add(newObj);
 			return;
 		}
 		
 		for(int i=0;i<=xSorted.size();i++){
 			if(i == xSorted.size()){
-				xSorted.add(newUnit);
+				xSorted.add(newObj);
 				break;
 			}
-			if(newUnit.getX() >= xSorted.get(i).getX()){
-				xSorted.add(i, newUnit);
+			if(newObj.getX() >= xSorted.get(i).getX()){
+				xSorted.add(i, newObj);
 				break;
 			}
 		}
 		
 		for(int i=0;i<=ySorted.size();i++){
 			if(i == ySorted.size()){
-				ySorted.add(newUnit);
+				ySorted.add(newObj);
 				break;
 			}
-			if(newUnit.getY() >= ySorted.get(i).getY()){
-				ySorted.add(i, newUnit);
+			if(newObj.getY() >= ySorted.get(i).getY()){
+				ySorted.add(i, newObj);
 				break;
 			}
 		}

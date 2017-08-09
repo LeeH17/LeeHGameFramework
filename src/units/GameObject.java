@@ -74,13 +74,14 @@ public abstract class GameObject extends Rectangle{
 	 * @param newUView: The specific unit view to be used
 	 * @param parent: The parent stage of the unit
 	 */
-	protected void setUpUnitView(Unit unit, S_Mission parent){
-		uView = new UnitView(unit);
+	protected void setUpUnitView(GameObject obj, S_Mission parent){
+		uView = new UnitView(obj);
 		parent.getStageView().addToLayer(uView, 1);
 		
 		//Set location and size, accounting for status bar
 		uView.setLocation(x, y);
 		uView.setSize(width, height);
+		uView.setVisible(true);
 	}
 	
 	/* Delegate painting to subtypes. */

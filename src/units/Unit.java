@@ -80,6 +80,7 @@ public abstract class Unit extends GameObject {
 		parent.getStageView().addToLayer(status, 2);
 		status.setLocation(x, y-statusOffset);
 		status.setSize(width, statusOffset);
+		status.setVisible(true);
 	}
 	
 		/* Unit-type specific behaviors (view-side) */

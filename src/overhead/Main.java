@@ -45,11 +45,11 @@ public class Main {
 				view.pack();
 				
 				//Set up update/repainting timer
-				Timer timer = new Timer(10, new ActionListener() {
+				Timer timer = new Timer(Main.updateRate(), new ActionListener() {
 					public void actionPerformed(ActionEvent e){
 						//TODO run only when needed, don't update otherwise
 						view.repaint();
-						view.currStage.update(10);
+						view.currStage.update(Main.updateRate());
 					}
 				});
 				
@@ -67,6 +67,13 @@ public class Main {
 	public void setCurrStage(Stage newStage){
 		currStage = newStage;
 	}
+	
+	/**
+	 * Represent the update rate in delta time.
+	 * Use this to ensure a central value is used.
+	 * @return Returns the frequency of game updates in milliseconds.
+	 */
+	public static int updateRate()	{ return 10;	}
 }
 
 

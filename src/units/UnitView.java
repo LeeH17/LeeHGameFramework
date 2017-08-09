@@ -22,11 +22,11 @@ public class UnitView extends JLabel{
 	GameObject gameObject;
 	Font font;
 	
-	public UnitView(Unit newUnit){
+	public UnitView(GameObject object){
 		super();
 		
 		//Set default values
-		gameObject = newUnit;
+		gameObject = object;
 		font = new Font(Font.DIALOG, Font.BOLD, 12);
 	}
 	
