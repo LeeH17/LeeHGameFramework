@@ -5,7 +5,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import javax.swing.AbstractAction;
 import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import gameplayElements.Mission;
@@ -253,7 +255,24 @@ public class S_Mission extends Stage implements MouseListener{
 	@Override
 	public void setUpKeyBinds(JComponent component) {
 		// TODO Hot keys for different heroes 1-6? commands for selected
-		
+		addAction("SelectHero1", new SelectHeroAction("SelectHero1", 0),
+				KeyStroke.getKeyStroke("typed 1"), component);
+		addAction("SelectHero2", new SelectHeroAction("SelectHero2", 1),
+				KeyStroke.getKeyStroke("typed 2"), component);
+		addAction("SelectHero3", new SelectHeroAction("SelectHero3", 2),
+				KeyStroke.getKeyStroke("typed 3"), component);
+	}
+	
+	private class SelectHeroAction extends AbstractAction {
+		int heroNumber;
+		public SelectHeroAction(String name, int number){
+			super(name);
+			heroNumber = number;
+		}
+		public void actionPerformed(ActionEvent e){
+			selected = heroes.get(heroNumber);
+			sView.selectedGameObject(selected);
+		}
 	}
 
 	@Override
