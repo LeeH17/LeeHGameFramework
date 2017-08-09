@@ -100,7 +100,8 @@ public abstract class GameObject extends Rectangle{
 	}
 	
 	/* Getter functions */
-	public int getHp()		{ return hp;	}
+	public int getHp()				{ return hp;	}
+	public boolean isControllable()	{ return false;	}
 }
 
 

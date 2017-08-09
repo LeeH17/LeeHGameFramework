@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import overhead.StageView;
 import overhead.View;
 import units.ParticleEffect;
-import units.Unit;
+import units.GameObject;
 
 public class SV_Mission extends StageView {
 
-	Unit selected;
+	GameObject selected;
 	
 	ArrayList<ParticleEffect> particles;
 	
@@ -29,10 +29,10 @@ public class SV_Mission extends StageView {
 	 * Also exposes the unit, passing it by reference,
 	 * 	allowing cursor information to auto-update
 	 * 	cursor drawing information. 
-	 * @param unit: A reference to the selected unit
+	 * @param unit: A reference to the selected GameObject
 	 */
-	public void selectedUnit(Unit unit){
-		selected = unit;
+	public void selectedGameObject(GameObject object){
+		selected = object;
 		//NOTE: a reference, auto-updates but rep-exposure
 	}
 	/**

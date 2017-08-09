@@ -26,7 +26,7 @@ public class S_Mission extends Stage implements MouseListener{
 	ArrayList<GameObject> xSorted, ySorted;
 	
 	//Controls
-	Unit selected;
+	GameObject selected;
 	
 	//TODO temp placeholder, for testing only
 	int zombieCounter;
@@ -262,7 +262,7 @@ public class S_Mission extends Stage implements MouseListener{
 			
 			//Translate unit
 			UnitView uv = (UnitView) e.getComponent();
-			Unit clicked = (Unit) uv.getUnit();
+			GameObject clicked = uv.getGameObject();
 			
 			if(SwingUtilities.isLeftMouseButton(e)) {
 				//Left click, TODO consider click type checked first 
@@ -272,7 +272,7 @@ public class S_Mission extends Stage implements MouseListener{
 				//	wasn't one we had already selected
 				if(!clicked.equals(selected)) {
 					selected = clicked;
-					sView.selectedUnit(selected);
+					sView.selectedGameObject(selected);
 				} else {
 					//De-select if we are clicking selected
 					selected = null;
@@ -289,7 +289,7 @@ public class S_Mission extends Stage implements MouseListener{
 				//Move selected, assuming it is not null
 				//	and is a controllable unit
 				if(selected != null && selected.isControllable()){
-					selected.moveTo(e.getX(), e.getY());
+					((Unit) selected).moveTo(e.getX(), e.getY());
 				}
 			}
 		} else {

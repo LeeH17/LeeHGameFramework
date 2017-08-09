@@ -19,26 +19,26 @@ public class UnitView extends JLabel{
 	//TODO so movement animation is controlled
 	
 	//Keep track of the corresponding unit in the model
-	Unit unit;
+	GameObject gameObject;
 	Font font;
 	
 	public UnitView(Unit newUnit){
 		super();
 		
 		//Set default values
-		unit = newUnit;
+		gameObject = newUnit;
 		font = new Font(Font.DIALOG, Font.BOLD, 12);
 	}
 	
 	/* Simple get function */
-	public Unit getUnit() { return unit; }
+	public GameObject getGameObject() { return gameObject; }
 	
 	@Override
 	public void paint(Graphics g){
 		//Change to improve potential, use newer form
 		Graphics2D g2 = (Graphics2D) g;
 		
-		unit.paint(g2);
+		gameObject.paint(g2);
 		
 		super.paint(g);
 	}

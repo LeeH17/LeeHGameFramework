@@ -95,7 +95,7 @@ public abstract class Unit extends GameObject {
 	public void paintStatusBar(Graphics2D g){
 		//Draw name tag
 		g.setColor(Color.DARK_GRAY);
-		if(allied) {
+		if(true) {
 			//Note: drawString draws from the bottom left
 			g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
 			g.drawString(getName(), 0, statusOffset-3);
@@ -190,8 +190,8 @@ public abstract class Unit extends GameObject {
 	
 	/* Simple distance check. */ 
 	public int getDistance(Unit target){
-		return (int) Math.sqrt((target.x-this.x)*(target.x-this.x)
-				+ (target.y-this.y)*(target.y-this.y));
+		return (int) Math.sqrt((target.getX()-this.getX())*(target.getX()-this.getX())
+				+ (target.getY()-this.getY())*(target.getY()-this.getY()));
 	}
 	/**
 	 * Simple method to find closest potential target
@@ -199,22 +199,22 @@ public abstract class Unit extends GameObject {
 	 * @return the closest of the targets with > 0 hp
 	 */
 	public Unit getClosest(ArrayList<Unit> targets){
-		if(targets.size() <= 0)
+		if(targets.size() <= 0) {
+			System.err.println("Error: Targets list empty!");
 			return null;
+		}
 		
 		Unit target = targets.get(0);	//Initial target
 		int shortestDistance = getDistance(target);
 		int newDistance;
 		if(targets.size() > 1) {
 			for(int i=1;i<targets.size();i++){ //Already got heroes[0]
-				if(target.getHp() > 0) {
-					newDistance = getDistance(targets.get(i));
-					if(shortestDistance > newDistance) {
-						//Replace with new target if new target is closer
-						//TODO consider replacing with "threat levels"? sound/decoys?
-						shortestDistance = newDistance;
-						target = targets.get(i);
-					}
+				newDistance = getDistance(targets.get(i));
+				if(shortestDistance > newDistance) {
+					//Replace with new target if new target is closer
+					//TODO consider replacing with "threat levels"? sound/decoys?
+					shortestDistance = newDistance;
+					target = targets.get(i);
 				}
 			}
 		}
