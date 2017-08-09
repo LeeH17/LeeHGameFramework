@@ -38,7 +38,7 @@ public class UnitView extends JLabel{
 		//Change to improve potential, use newer form
 		Graphics2D g2 = (Graphics2D) g;
 		
-		unit.paintUnit(g2);
+		unit.paint(g2);
 		
 		super.paint(g);
 	}

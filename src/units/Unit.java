@@ -15,10 +15,9 @@ import stages.S_Mission;
  * To represent a given moving entity; hero or enemy
  * @author Harrison Lee
  */
-public abstract class Unit extends Rectangle{
-	UnitView uView;
+public abstract class Unit extends GameObject {
 	StatusBar status;
-	S_Mission parent;
+	
 	int statusOffset;
 	int targetX;
 	int targetY;
@@ -41,12 +40,12 @@ public abstract class Unit extends Rectangle{
 	public Unit(int initX, int initY,
 			int initWidth, int initHeight,
 			S_Mission newParent){
-		super(initX, initY, initWidth, initHeight);
+		super(initX, initY, initWidth, initHeight, newParent);
 		//Set initial values
 		targetX = initX;
 		targetY = initY;
 		delay = 0;
-		parent = newParent;
+		
 		//Set default values
 		statusOffset = 15;	//Redefine pending status type
 	}
@@ -54,9 +53,8 @@ public abstract class Unit extends Rectangle{
 		/* Unit-type specific behaviors (model-side) */
 	public abstract void attack(ArrayList<Unit> targets);
 	public void die() {
-		parent.removeUnit(this);
 		uView.getParent().remove(status);
-		uView.getParent().remove(uView);
+		super.die();
 	}
 	public void takeDamage(int dmg){
 		hp -= dmg;
@@ -65,58 +63,19 @@ public abstract class Unit extends Rectangle{
 		}
 	}
 	
-	/**
-	 * Enact the effects of colliding with another unit
-	 * @param other: The other thing being collided with
-	 * @param intersection: The overlap between the two
-	 */
-	public void collide(Unit other, Rectangle intersection){
-		//Basic effect is just to push away from each other,
-		//	prevent walking through each other
-		
-		int newX = this.x;
-		int newY = this.y;
-
-		//First, find shortest push axis, x or y?
-		int mod = 0;
-		if(intersection.getWidth() < intersection.getHeight()){
-			//X-Axis
-			if(this.getX() < other.getX()){	//Before other
-				mod = -1;
-			} else {
-				mod =  1;
-			}
-			
-			newX += intersection.getWidth() * mod;
-		} else {
-			//Y-Axis
-			if(this.getY() < other.getY()){	//Above other
-				mod = -1;
-			} else {
-				mod =  1;
-			}
-			
-			newY += intersection.getHeight() * mod;
-		}
-		setXY(newX, newY);
-		//TODO pathfind around? Maybe unit specific
-	}
 	
 	/**
-	 * Use this to set up unit view, the default way
+	 * Use this to set up unit view, the default way.
+	 * Must be called at end of lowest level object.
+	 * This version also sets up the status bar
 	 * @param newUView: The specific unit view to be used
 	 * @param parent: The parent stage of the unit
 	 */
 	protected void setUpUnitView(Unit unit, S_Mission parent){
-		uView = new UnitView(unit);
-		parent.getStageView().addToLayer(uView, 1);
+		super.setUpUnitView(unit, parent);
 		uView.addMouseListener(parent);
 		
-		//Set location and size, accounting for status bar
-		uView.setLocation(x, y);
-		uView.setSize(width, height);
-		
-		//Repeat for status bar
+		//Add status bar as well
 		status = new StatusBar(unit);
 		parent.getStageView().addToLayer(status, 2);
 		status.setLocation(x, y-statusOffset);
@@ -125,8 +84,8 @@ public abstract class Unit extends Rectangle{
 	
 		/* Unit-type specific behaviors (view-side) */
 	/* Subtypes will define how unit is painted */
-	public abstract void paintUnit(Graphics2D g);
-	
+	public abstract void paint(Graphics2D g);
+
 	/**
 	 * Function to paint the status bar and name tag
 	 * 	for this unit.
@@ -269,16 +228,14 @@ public abstract class Unit extends Rectangle{
 	 * @param x: The new X coordinate
 	 * @param y: The new Y coordinate
 	 */
+	@Override
 	public void setXY(int newX, int newY){
-		this.x = newX;
-		this.y = newY;
-		uView.setLocation(newX, newY);
+		super.setXY(newX, newY);
 		status.setLocation(newX, newY - statusOffset);
 	}
 	
 	/* Simple getter functions */
 	public String getName() { return name;	}
-	public int getHp()		{ return hp;	}
 	public int getStatusOffset() 	{ return statusOffset; }
 	public boolean isControllable()	{ return allied; }
 	

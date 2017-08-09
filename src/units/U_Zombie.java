@@ -43,7 +43,7 @@ public class U_Zombie extends Unit {
 	}
 	
 	@Override
-	public void collide(Unit other, Rectangle intersection){
+	public void collide(GameObject other, Rectangle intersection){
 		super.collide(other, intersection);
 		/*if(other.getClass().equals(U_Zombie.class)){
 			U_Zombie test = (U_Zombie) other;
@@ -61,7 +61,7 @@ public class U_Zombie extends Unit {
 	}
 
 	@Override
-	public void paintUnit(Graphics2D g) {
+	public void paint(Graphics2D g) {
 		g.setColor(Color.GREEN);
 		g.fillRect(0, 0, (int) getWidth(), (int) getHeight());
 	}

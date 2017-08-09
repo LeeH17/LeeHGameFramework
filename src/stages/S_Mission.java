@@ -23,7 +23,7 @@ public class S_Mission extends Stage implements MouseListener{
 	
 	//Hold two arraylists of all units in order,
 	//	sorted by x and y positions
-	ArrayList<Unit> xSorted, ySorted;
+	ArrayList<GameObject> xSorted, ySorted;
 	
 	//Controls
 	Unit selected;
@@ -44,8 +44,8 @@ public class S_Mission extends Stage implements MouseListener{
 		sView = new SV_Mission(viewParent);
 		sView.addMouseListener(this);
 		
-		xSorted = new ArrayList<Unit>();
-		ySorted = new ArrayList<Unit>();
+		xSorted = new ArrayList<GameObject>();
+		ySorted = new ArrayList<GameObject>();
 		
 		currMsn = loadMission;
 		//Load in heroes
@@ -90,12 +90,12 @@ public class S_Mission extends Stage implements MouseListener{
 		//	intersects, prevent movement.
 		//	Check in one direction to prevent repeat checks.
 		
-		//For each unit in both xSorted and ySorted,  check collisions
+		//For each GameObject in both xSorted and ySorted,  check collisions
 		for(int i = 0; i < xSorted.size(); i++){
 			//Set temporary variables
 			int j = i+1;
-			Unit curr = xSorted.get(i);
-			Unit selected;
+			GameObject curr = xSorted.get(i);
+			GameObject selected;
 			Rectangle intersection;
 			
 			while(j<xSorted.size()){	//Go through X
@@ -114,8 +114,8 @@ public class S_Mission extends Stage implements MouseListener{
 		//Repeat for y
 		for(int i=0; i<ySorted.size(); i++) {
 			int j = i+1;
-			Unit curr = ySorted.get(i);
-			Unit selected;
+			GameObject curr = ySorted.get(i);
+			GameObject selected;
 			Rectangle intersection;
 			
 			while(j<ySorted.size()){	//Go through Y
@@ -134,10 +134,10 @@ public class S_Mission extends Stage implements MouseListener{
 		
 		//Re-sort xSorted and ySorted
 		//TODO just swap to a sorted list? Potential optimization
-		for(int x=0;x<xSorted.size()-1;x++){	//For each unit
+		for(int x=0;x<xSorted.size()-2;x++){	//For each unit
 			if(xSorted.get(x).getX() > xSorted.get(x+1).getX()){
 				//If x is greater than the next value
-				Unit temp = xSorted.get(x);
+				GameObject temp = xSorted.get(x);
 				xSorted.remove(x);
 				int i = x+1;
 				//Move x all the way up to where it is either
@@ -150,9 +150,9 @@ public class S_Mission extends Stage implements MouseListener{
 		}
 		
 		//Repeat for y
-		for(int y=0;y<ySorted.size()-1;y++){
+		for(int y=0;y<ySorted.size()-2;y++){
 			if(ySorted.get(y).getY() > ySorted.get(y+1).getY()){
-				Unit temp = ySorted.get(y);
+				GameObject temp = ySorted.get(y);
 				ySorted.remove(y);
 				int i = y+1;
 				while(temp.getY() > ySorted.get(i).getY() && i < ySorted.size()-1){
@@ -226,16 +226,16 @@ public class S_Mission extends Stage implements MouseListener{
 	
 	/**
 	 * Remove the given unit from all lists holding it.
-	 * @param unit
+	 * @param target: The thing to be removed
 	 */
-	public void removeUnit(Unit unit){
-		if(unit.getClass().equals(U_Zombie.class)){
-			zombies.remove(unit);
-		} else if(unit.getClass().equals(U_Hero.class)){
-			heroes.remove(unit);
+	public void remove(GameObject target){
+		if(target.getClass().equals(U_Zombie.class)){
+			zombies.remove(target);
+		} else if(target.getClass().equals(U_Hero.class)){
+			heroes.remove(target);
 		}
-		xSorted.remove(unit);
-		ySorted.remove(unit);
+		xSorted.remove(target);
+		ySorted.remove(target);
 	}
 	
 	@Override

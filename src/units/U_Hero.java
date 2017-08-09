@@ -64,7 +64,7 @@ public class U_Hero extends Unit{
 				new ParticleEffect(bloodstain, Color.RED, 500));
 	}
 	
-	public void paintUnit(Graphics2D g){
+	public void paint(Graphics2D g){
 		//Place holder graphics
 		g.setColor(Color.BLUE);
 		g.fillRect(0, 0, (int) getWidth(), (int) getHeight());
