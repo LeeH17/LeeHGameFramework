@@ -133,7 +133,34 @@ public class S_Mission extends Stage implements MouseListener{
 		}
 		
 		//Re-sort xSorted and ySorted
-		//TODO just swap to a sorted list?
+		//TODO just swap to a sorted list? Potential optimization
+		for(int x=0;x<xSorted.size()-1;x++){	//For each unit
+			if(xSorted.get(x).getX() > xSorted.get(x+1).getX()){
+				//If x is greater than the next value
+				Unit temp = xSorted.get(x);
+				xSorted.remove(x);
+				int i = x+1;
+				//Move x all the way up to where it is either
+				//	smaller than the next or to the end of the list
+				while(temp.getX() > xSorted.get(i).getX() && i < xSorted.size()-1){
+					i++;
+				}
+				xSorted.add(i, temp);
+			}
+		}
+		
+		//Repeat for y
+		for(int y=0;y<ySorted.size()-1;y++){
+			if(ySorted.get(y).getY() > ySorted.get(y+1).getY()){
+				Unit temp = ySorted.get(y);
+				ySorted.remove(y);
+				int i = y+1;
+				while(temp.getY() > ySorted.get(i).getY() && i < ySorted.size()-1){
+					i++;
+				}
+				ySorted.add(i, temp);
+			}
+		}
 	}
 	
 	private void addUnit(Unit newUnit){

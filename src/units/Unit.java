@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.SortedMap;
+import java.util.SortedSet;
 
 import stages.S_Mission;
 
@@ -18,12 +20,10 @@ public abstract class Unit extends Rectangle{
 	StatusBar status;
 	S_Mission parent;
 	int statusOffset;
-	
 	int targetX;
 	int targetY;
 
 	int delay;	//Refers to delay until next action
-	
 	
 	//Non-Unit-defined values
 	String name;
@@ -76,7 +76,7 @@ public abstract class Unit extends Rectangle{
 		
 		int newX = this.x;
 		int newY = this.y;
-		
+
 		//First, find shortest push axis, x or y?
 		int mod = 0;
 		if(intersection.getWidth() < intersection.getHeight()){
