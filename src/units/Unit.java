@@ -50,19 +50,12 @@ public abstract class Unit extends GameObject {
 		statusOffset = 15;	//Redefine pending status type
 	}
 
-		/* Unit-type specific behaviors (model-side) */
+		/* Model-side behaviors */
 	public abstract void attack(ArrayList<Unit> targets);
 	public void die() {
 		uView.getParent().remove(status);
 		super.die();
 	}
-	public void takeDamage(int dmg){
-		hp -= dmg;
-		if(hp <= 0) { //Check for death
-			die();
-		}
-	}
-	
 	
 	/**
 	 * Use this to set up unit view, the default way.
@@ -189,11 +182,6 @@ public abstract class Unit extends GameObject {
 		}
 	}
 	
-	/* Simple distance check. */ 
-	public int getDistance(Unit target){
-		return (int) Math.sqrt((target.getX()-this.getX())*(target.getX()-this.getX())
-				+ (target.getY()-this.getY())*(target.getY()-this.getY()));
-	}
 	/**
 	 * Simple method to find closest potential target
 	 * @param targets: An arraylist of potential targets to choose from
@@ -205,13 +193,22 @@ public abstract class Unit extends GameObject {
 			return null;
 		}
 		
-		Unit target = targets.get(0);	//Initial target
-		int shortestDistance = getDistance(target);
+		//Find a non-null initial target
+		Unit target = null;
+		int shortestDistance = Integer.MAX_VALUE;
+		for(Unit initial: targets){
+			//Should only run a few times, until first non-null is found
+			if(initial != null){
+				target = initial;
+				shortestDistance = getDistance(target);
+				break;
+			}
+		}
 		int newDistance;
 		if(targets.size() > 1) {
 			for(int i=1;i<targets.size();i++){ //Already got heroes[0]
 				newDistance = getDistance(targets.get(i));
-				if(shortestDistance > newDistance) {
+				if(shortestDistance > newDistance && newDistance != -1) {
 					//Replace with new target if new target is closer
 					//TODO consider replacing with "threat levels"? sound/decoys?
 					shortestDistance = newDistance;

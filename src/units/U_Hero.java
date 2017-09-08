@@ -51,8 +51,8 @@ public class U_Hero extends Unit{
 		
 		//Draw bullet streak - just a simple yellow line with 0 duration
 		Line2D bulletStreak = new Line2D.Double(
-				this.getX(), this.getY(),
-				target.getX(), target.getY());
+				this.getCenterX(), this.getCenterY(),
+				target.getCenterX(), target.getCenterY());
 		ParticleEffect effect = new ParticleEffect(bulletStreak, Color.YELLOW, 15);
 		parent.getStageView().drawEffect(effect);
 	}

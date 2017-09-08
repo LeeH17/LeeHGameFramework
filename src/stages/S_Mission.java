@@ -69,8 +69,10 @@ public class S_Mission extends Stage implements MouseListener{
 	public void update(int deltaTime){
 		//Update heroes
 		for(Unit hero: heroes){
-			hero.update(deltaTime);
-			hero.attack(zombies);
+			if(hero != null) {
+				hero.update(deltaTime);
+				hero.attack(zombies);
+			}
 		}
 		
 		//Update zombies
@@ -237,7 +239,18 @@ public class S_Mission extends Stage implements MouseListener{
 		if(target.getClass().equals(U_Zombie.class)){
 			zombies.remove(target);
 		} else if(target.getClass().equals(U_Hero.class)){
-			heroes.remove(target);
+			//First, find index of given hero
+			int i;
+			for(i=0; i < heroes.size(); i++){
+				if(heroes.get(i) != null) {
+					if(heroes.get(i).equals(target)){
+						break;
+					}
+				}
+			}
+			
+			//Replace with an empty hero
+			heroes.set(i, null);
 		}
 		xSorted.remove(target);
 		ySorted.remove(target);
@@ -270,8 +283,23 @@ public class S_Mission extends Stage implements MouseListener{
 			heroNumber = number;
 		}
 		public void actionPerformed(ActionEvent e){
-			selected = heroes.get(heroNumber);
-			sView.selectedGameObject(selected);
+			if(selected != null){
+				if(selected.equals(heroes.get(heroNumber))){
+					//Deselect
+					selected = null;
+					sView.deselect();
+				} else {
+					select();
+				}
+			} else {
+				select();
+			}
+		}
+		private void select() {	//Select the assigned hero
+			if(heroes.get(heroNumber) != null){
+				selected = heroes.get(heroNumber);
+				sView.selectedGameObject(selected);
+			}
 		}
 	}
 

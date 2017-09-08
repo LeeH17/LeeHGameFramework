@@ -31,6 +31,12 @@ public abstract class GameObject extends Rectangle{
 		parent.remove(this);
 		uView.getParent().remove(uView);
 	}
+	public void takeDamage(int dmg){
+		hp -= dmg;
+		if(hp <= 0) { //Check for death
+			die();
+		}
+	}
 	
 	/**
 	 * Enact the effects of colliding with another unit
@@ -86,6 +92,22 @@ public abstract class GameObject extends Rectangle{
 	
 	/* Delegate painting to subtypes. */
 	public abstract void paint(Graphics2D g);
+	
+	/**
+	 * Simple distance check. Checks distance from this object to
+	 * given other object
+	 * @param target: The object to find distance to
+	 * @return Returns the pixel distance to the other object if it is not null.
+	 * 			Returns -1 if target is null.
+	 * */
+	public int getDistance(GameObject target){
+		if(target == null){
+			return -1;	//Fail state
+		}
+		
+		return (int) Math.sqrt((target.getCenterX()-this.getCenterX())*(target.getCenterX()-this.getCenterX())
+				+ (target.getCenterY()-this.getCenterY())*(target.getCenterY()-this.getCenterY()));
+	}
 	
 	/**
 	 * Use this when changing x and y, to ensure change
