@@ -267,13 +267,30 @@ public class S_Mission extends Stage implements MouseListener{
 
 	@Override
 	public void setUpKeyBinds(JComponent component) {
-		// TODO Hot keys for different heroes 1-6? commands for selected
-		addAction("SelectHero1", new SelectHeroAction("SelectHero1", 0),
-				KeyStroke.getKeyStroke("typed 1"), component);
-		addAction("SelectHero2", new SelectHeroAction("SelectHero2", 1),
-				KeyStroke.getKeyStroke("typed 2"), component);
-		addAction("SelectHero3", new SelectHeroAction("SelectHero3", 2),
-				KeyStroke.getKeyStroke("typed 3"), component);
+		//Add hero key binds
+		for(int i=0;i<heroes.size();i++){
+			String actionName = "SelectHero" + Integer.toString(i);
+			SelectHeroAction action = new SelectHeroAction(actionName, i);
+			KeyStroke keystroke = KeyStroke.getKeyStroke("typed " + Integer.toString(i+1));
+			
+			this.addAction(actionName, action, keystroke, component);
+		}
+		
+		//Add arrow keys to move camera
+		addAction("MoveUpPressed", new AbstractAction(){
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					sView.moveCamera
+				}
+		}, KeyStroke.getKeyStroke("pressed up"), component);
+		
+		addAction("MoveUpReleased", new AbstractAction(){
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+		}, KeyStroke.getKeyStroke("released up"), component);
 	}
 	
 	private class SelectHeroAction extends AbstractAction {
@@ -340,6 +357,13 @@ public class S_Mission extends Stage implements MouseListener{
 				//	and is a controllable unit
 				if(selected != null && selected.isControllable()){
 					((Unit) selected).moveTo(e.getX(), e.getY());
+				} else if(selected == null){
+					//Right clicked map without anything selected
+					//	so we will move/scroll the map TODO implementation
+					
+					//sView.moveCamera?
+					//Mouse moved + map held bool?
+					//Start with arrow keys scrolling?
 				}
 			}
 		} else {

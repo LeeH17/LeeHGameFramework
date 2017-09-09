@@ -196,14 +196,24 @@ public abstract class Unit extends GameObject {
 		//Find a non-null initial target
 		Unit target = null;
 		int shortestDistance = Integer.MAX_VALUE;
+		boolean initialFound = false; //Use to check if we do find an initial value
 		for(Unit initial: targets){
 			//Should only run a few times, until first non-null is found
 			if(initial != null){
 				target = initial;
 				shortestDistance = getDistance(target);
+				initialFound = true;
 				break;
 			}
 		}
+		
+		//Check to make sure we found an actual valid initial
+		if(initialFound == false){
+			//Never found anything, thats an issue!
+			System.err.println("Error!: Never found an initial target in Unit.getClosest().");
+			System.exit(1);
+		}
+		
 		int newDistance;
 		if(targets.size() > 1) {
 			for(int i=1;i<targets.size();i++){ //Already got heroes[0]
